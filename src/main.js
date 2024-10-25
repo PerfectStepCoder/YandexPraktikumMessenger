@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               createAccountButton.addEventListener('click', renderRegister);
               loginButton.addEventListener('click', renderChats);
           } else {
-              console.error("Buttons not found in the DOM.");
+              console.log("Buttons not found in the DOM.");
           }
         });
     }
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (enterButton) {
             enterButton.addEventListener('click', renderLogin);
         } else {
-            console.error("Buttons not found in the DOM.");
+            console.log("Buttons not found in the DOM.");
         }
       });
     }
