@@ -68,18 +68,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Функция для рендеринга страницы логина
     function renderLogin() {
+        
+        console.log(loginTemplate(loginContext));
+        
         app.innerHTML = loginTemplate(loginContext);
-        requestAnimationFrame(() => {
-          const createAccountButton = document.querySelector('.create-account');
-          const loginButton = document.querySelector('.login-btn');
+        
+        // requestAnimationFrame(() => {
+        //   const createAccountButton = document.querySelector('.create-account');
+        //   const loginButton = document.querySelector('.login-btn');
   
-          if (createAccountButton && loginButton) {
-              createAccountButton.addEventListener('click', renderRegister);
-              loginButton.addEventListener('click', renderChats);
-          } else {
-              console.log("Buttons not found in the DOM.");
-          }
-        });
+        //   if (createAccountButton && loginButton) {
+        //       createAccountButton.addEventListener('click', renderRegister);
+        //       loginButton.addEventListener('click', renderChats);
+        //   } else {
+        //       console.log("Buttons not found in the DOM.");
+        //   }
+        // });
     }
 
     // Функция для рендеринга страницы профиля
