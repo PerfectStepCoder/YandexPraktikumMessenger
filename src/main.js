@@ -69,8 +69,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Функция для рендеринга страницы логина
     function renderLogin() {
         app.innerHTML = loginTemplate(loginContext);
-        document.querySelector('.create-account').addEventListener('click', renderRegister);
-        document.querySelector('.login-btn').addEventListener('click', renderChats);
+        setTimeout(() => {
+          document.querySelector('.create-account').addEventListener('click', renderRegister);
+          document.querySelector('.login-btn').addEventListener('click', renderChats);
+        }, 1);
     }
 
     // Функция для рендеринга страницы профиля
