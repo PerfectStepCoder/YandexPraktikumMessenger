@@ -4,3 +4,7 @@
 ## Start project
 Запуск сайта на 3000 порту
 >npm run start
+
+## Deploy site
+https://ymessanger.netlify.app/
+

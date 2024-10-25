@@ -69,10 +69,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Функция для рендеринга страницы логина
     function renderLogin() {
         app.innerHTML = loginTemplate(loginContext);
-        setTimeout(() => {
-          document.querySelector('.create-account').addEventListener('click', renderRegister);
-          document.querySelector('.login-btn').addEventListener('click', renderChats);
-        }, 1);
+        requestAnimationFrame(() => {
+          const createAccountButton = document.querySelector('.create-account');
+          const loginButton = document.querySelector('.login-btn');
+  
+          if (createAccountButton && loginButton) {
+              createAccountButton.addEventListener('click', renderRegister);
+              loginButton.addEventListener('click', renderChats);
+          } else {
+              console.error("Buttons not found in the DOM.");
+          }
+        });
     }
 
     // Функция для рендеринга страницы профиля
@@ -82,7 +89,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function renderRegister() {
       app.innerHTML = registerTemplate(registerContext);
-      document.querySelector('.enter-btn').addEventListener('click', renderLogin);
+
+      requestAnimationFrame(() => {
+        const enterButton = document.querySelector('.enter-btn');
+
+        if (enterButton) {
+            enterButton.addEventListener('click', renderLogin);
+        } else {
+            console.error("Buttons not found in the DOM.");
+        }
+      });
     }
 
     function renderError500() {
