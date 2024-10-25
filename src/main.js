@@ -14,11 +14,12 @@ async function loadTemplate(url) {
 
 document.addEventListener('DOMContentLoaded', async () => {
 
- 
-    const profileTemplateSource = await loadTemplate('./pages/profile.hbs');
+    const profileTemplatePath = import.meta.env.DEV ? './pages/profile.hbs' : '/assets/pages/profile.hbs';
+    const profileTemplateSource = await loadTemplate(profileTemplatePath);
     const profileTemplate = Handlebars.compile(profileTemplateSource);
 
-    const loginTemplateSource = await loadTemplate('./pages/login.hbs');
+    const loginTemplatePath = import.meta.env.DEV ? './pages/login.hbs' : '/assets/pages/login.hbs';
+    const loginTemplateSource = await loadTemplate(loginTemplatePath);
     const loginTemplate = Handlebars.compile(loginTemplateSource);
 
     const registerTemplateSource = await loadTemplate('./pages/register.hbs');
@@ -66,10 +67,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Функция для рендеринга страницы логина
     function renderLogin() {
+
+      
+      console.log(loginTemplate(loginContext));
         
-        console.log(loginTemplate(loginContext));
-        
-        app.innerHTML = loginTemplate(loginContext);
+      app.innerHTML = loginTemplate(loginContext);
         
         // requestAnimationFrame(() => {
         //   const createAccountButton = document.querySelector('.create-account');

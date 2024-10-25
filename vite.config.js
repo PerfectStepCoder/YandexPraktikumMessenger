@@ -24,7 +24,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  assetsInclude: ['./src/pages/*.hbs'],
+  assetsInclude: ['./pages/*.hbs'],
   build: {
     outDir: '../build',
   },
