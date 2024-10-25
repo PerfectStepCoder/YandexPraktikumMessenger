@@ -1,6 +1,6 @@
 # YandexPraktikum Messanger
 Учебный проект мессендера в ЯндексПрактикум
 
-Now run:
-  npm install
-  npm run dev
+## Start project
+Запуск сайта на 3000 порту
+>npm run start
