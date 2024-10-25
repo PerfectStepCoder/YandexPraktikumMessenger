@@ -1,1 +1,3 @@
+/pages/*.hbs   /pages/:splat.hbs   200
+/styles/*.css   /styles/:splat.css   200
 /*    /index.html   200
