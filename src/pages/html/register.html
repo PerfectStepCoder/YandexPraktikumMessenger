@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .register-form {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        .register-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .register-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .register-form .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .register-form button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .register-form button:hover {
+            background-color: #4cae4c;
+        }
+
+        .register-form .enter-btn {
+            background-color: #0275d8;
+        }
+
+        .register-form .enter-btn:hover {
+            background-color: #025aa5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-form">
+        <h2>Register</h2>
+        <form>
+            <input type="text" placeholder="First Name" required>
+            <input type="text" placeholder="Second Name" required>
+            <input type="text" placeholder="Display Name" required>
+            <input type="text" placeholder="Login" required>
+            <input type="email" placeholder="Email" required>
+            <input type="tel" placeholder="Phone" required>
+            <div class="buttons">
+                <button type="submit">Register</button>
+                <button type="button" class="enter-btn">Enter</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
