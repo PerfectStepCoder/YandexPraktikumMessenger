@@ -13,6 +13,10 @@ export default defineConfig({
           {
             src: '_redirects',
             dest: ''
+          },
+          {
+            src: './pages/*.hbs',
+            dest: 'assets/pages'
           }
         ]
     })
@@ -20,7 +24,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  assetsInclude: ['**/*.hbs'],
+  assetsInclude: ['./src/pages/*.hbs'],
   build: {
     outDir: '../build',
   },
