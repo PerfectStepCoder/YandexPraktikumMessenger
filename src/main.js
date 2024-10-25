@@ -1,6 +1,4 @@
 import Handlebars from 'handlebars';
-import loginTemplateSrc from './pages/login.hbs';
-import profileTemplateSrc from './pages/profile.hbs';
 
 import './styles/login.css';
 import './styles/profile.css';
@@ -17,19 +15,19 @@ async function loadTemplate(url) {
 document.addEventListener('DOMContentLoaded', async () => {
 
  
-    const profileTemplateSource = await loadTemplate('/pages/profile.hbs');
+    const profileTemplateSource = await loadTemplate('./pages/profile.hbs');
     const profileTemplate = Handlebars.compile(profileTemplateSource);
 
-    const loginTemplateSource = await loadTemplate('/pages/login.hbs');
+    const loginTemplateSource = await loadTemplate('./pages/login.hbs');
     const loginTemplate = Handlebars.compile(loginTemplateSource);
 
-    const registerTemplateSource = await loadTemplate('/pages/register.hbs');
+    const registerTemplateSource = await loadTemplate('./pages/register.hbs');
     const registerTemplate = Handlebars.compile(registerTemplateSource);
 
-    const chatsTemplateSource = await loadTemplate('/pages/chats.hbs');
+    const chatsTemplateSource = await loadTemplate('./pages/chats.hbs');
     const chatsTemplate = Handlebars.compile(chatsTemplateSource);
 
-    const error500TemplateSource = await loadTemplate('/pages/error500.hbs');
+    const error500TemplateSource = await loadTemplate('./pages/error500.hbs');
     const error500Template = Handlebars.compile(error500TemplateSource);
 
     const app = document.getElementById('app');
