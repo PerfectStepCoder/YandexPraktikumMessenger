@@ -22,13 +22,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loginTemplateSource = await loadTemplate(loginTemplatePath);
     const loginTemplate = Handlebars.compile(loginTemplateSource);
 
-    const registerTemplateSource = await loadTemplate('./pages/register.hbs');
+    const registerTemplatePath = import.meta.env.DEV ? './pages/register.hbs' : '/assets/pages/register.hbs';
+    const registerTemplateSource = await loadTemplate(registerTemplatePath);
     const registerTemplate = Handlebars.compile(registerTemplateSource);
 
-    const chatsTemplateSource = await loadTemplate('./pages/chats.hbs');
+    const chatsTemplatePath = import.meta.env.DEV ? './pages/chats.hbs' : '/assets/pages/chats.hbs';
+    const chatsTemplateSource = await loadTemplate(chatsTemplatePath);
     const chatsTemplate = Handlebars.compile(chatsTemplateSource);
 
-    const error500TemplateSource = await loadTemplate('./pages/error500.hbs');
+    const error500TemplatePath = import.meta.env.DEV ? './pages/error500.hbs' : '/assets/pages/error500.hbs';
+    const error500TemplateSource = await loadTemplate(error500TemplatePath);
     const error500Template = Handlebars.compile(error500TemplateSource);
 
     const app = document.getElementById('app');
@@ -73,17 +76,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         
       app.innerHTML = loginTemplate(loginContext);
         
-        // requestAnimationFrame(() => {
-        //   const createAccountButton = document.querySelector('.create-account');
-        //   const loginButton = document.querySelector('.login-btn');
-  
-        //   if (createAccountButton && loginButton) {
-        //       createAccountButton.addEventListener('click', renderRegister);
-        //       loginButton.addEventListener('click', renderChats);
-        //   } else {
-        //       console.log("Buttons not found in the DOM.");
-        //   }
-        // });
+        requestAnimationFrame(() => {
+          const createAccountButton = document.querySelector('.create-account');
+          const loginButton = document.querySelector('.login-btn');
+          if (createAccountButton && loginButton) {
+              createAccountButton.addEventListener('click', renderRegister);
+              loginButton.addEventListener('click', renderChats);
+          } else {
+              console.log("Buttons not found in the DOM.");
+          }
+        });
     }
 
     // Функция для рендеринга страницы профиля
