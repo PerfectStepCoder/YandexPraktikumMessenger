@@ -1,3 +1,21 @@
+:root {
+    --background-color: #f4f4f9;
+    --container-background: #ffffff;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --font-color-primary: #333;
+    --border-color: #ccc;
+    --button-primary: #5cb85c;
+    --button-primary-hover: #4cae4c;
+    --button-secondary: #d9534f;
+    --button-secondary-hover: #c9302c;
+    --padding-small: 3px;
+    --padding-medium: 10px;
+    --padding-large: 20px;
+    --border-radius: 5px;
+    --border-radius-container: 10px;
+    --container-max-width: 600px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,23 +24,23 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    padding: 20px;
+    background-color: var(--background-color);
+    padding: var(--padding-large);
 }
 
 .container {
-    max-width: 600px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--container-background);
+    padding: var(--padding-large);
+    border-radius: var(--border-radius-container);
+    box-shadow: 0 0 10px var(--container-shadow);
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: var(--padding-large);
+    color: var(--font-color-primary);
 }
 
 .form-group {
@@ -37,13 +55,13 @@ h2 {
 
 .form-group input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: var(--padding-medium);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
 }
 
 .form-group input[type="file"] {
-    padding: 3px;
+    padding: var(--padding-small);
 }
 
 .form-group input[type="password"] {
@@ -56,22 +74,22 @@ h2 {
 }
 
 .buttons button {
-    padding: 10px 20px;
-    background-color: #5cb85c;
+    padding: var(--padding-medium) var(--padding-large);
+    background-color: var(--button-primary);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
 }
 
 .buttons button:hover {
-    background-color: #4cae4c;
+    background-color: var(--button-primary-hover);
 }
 
 .buttons .reset {
-    background-color: #d9534f;
+    background-color: var(--button-secondary);
 }
 
 .buttons .reset:hover {
-    background-color: #c9302c;
+    background-color: var(--button-secondary-hover);
 }

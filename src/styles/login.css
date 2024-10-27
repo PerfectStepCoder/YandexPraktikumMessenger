@@ -1,3 +1,21 @@
+:root {
+    --background-color: #f4f4f9;
+    --form-background: #ffffff;
+    --form-shadow: rgba(0, 0, 0, 0.1);
+    --font-color-primary: #333;
+    --border-color: #ccc;
+    --button-primary: #5cb85c;
+    --button-primary-hover: #4cae4c;
+    --button-secondary: #0275d8;
+    --button-secondary-hover: #025aa5;
+    --padding-small: 10px;
+    --padding-medium: 20px;
+    --padding-large: 40px;
+    --border-radius: 5px;
+    --border-radius-container: 10px;
+    --form-width: 300px;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,30 +27,30 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f9;
+    background-color: var(--background-color);
     font-family: Arial, sans-serif;
 }
 
 .login-form {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    background-color: var(--form-background);
+    padding: var(--padding-large);
+    border-radius: var(--border-radius-container);
+    box-shadow: 0 0 20px var(--form-shadow);
+    width: var(--form-width);
 }
 
 .login-form h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: var(--padding-medium);
+    color: var(--font-color-primary);
 }
 
 .login-form input {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: var(--padding-small);
+    margin: var(--padding-small) 0;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
 }
 
 .login-form .buttons {
@@ -41,22 +59,22 @@ body {
 }
 
 .login-form button {
-    padding: 10px 20px;
+    padding: var(--padding-small) var(--padding-medium);
     border: none;
-    background-color: #5cb85c;
+    background-color: var(--button-primary);
     color: white;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
 }
 
 .login-form button:hover {
-    background-color: #4cae4c;
+    background-color: var(--button-primary-hover);
 }
 
 .login-form .create-account {
-    background-color: #0275d8;
+    background-color: var(--button-secondary);
 }
 
 .login-form .create-account:hover {
-    background-color: #025aa5;
+    background-color: var(--button-secondary-hover);
 }
