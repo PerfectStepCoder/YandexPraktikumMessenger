@@ -1,7 +1,10 @@
 # YandexPraktikum Messanger
 Учебный проект мессендера в ЯндексПрактикум
 
-Now run:
+## Start project
+Запуск сайта на 3000 порту
+>npm run start
 
-  npm install
-  npm run dev
+## Deploy site
+https://ymessanger.netlify.app/
+
