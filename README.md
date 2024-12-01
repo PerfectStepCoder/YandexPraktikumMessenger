@@ -8,3 +8,15 @@
 ## Deploy site
 https://ymessanger.netlify.app/
 
+## TypeScript
+> ts-node script.ts
+
+# Перевод на TypeScript
+>npm install typescript @types/node --save-dev
+Create tsconfig.json
+Add: env.d.ts
+
+Подключение линтера ESLint:
+> npm install eslint eslint-plugin-vite @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
+> npx eslint --init
+> npm run lint
