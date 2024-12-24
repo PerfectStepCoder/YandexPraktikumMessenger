@@ -6,6 +6,8 @@
       "lib": ["ESNext", "DOM"],
       "moduleResolution": "Node",
       "strict": true,
+      "outDir": "./build",
+      "rootDir": "./src",
       "resolveJsonModule": true,
       "isolatedModules": true,
       "esModuleInterop": true,
@@ -15,6 +17,6 @@
       "noImplicitReturns": true,
       "skipLibCheck": true
     },
-    "include": ["src"],
+    "include": ["src/**/*"],
     "exclude": ["node_modules"]
   }

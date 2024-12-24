@@ -27,5 +27,8 @@ export default defineConfig({
   assetsInclude: ['./pages/*.hbs'],
   build: {
     outDir: '../build',
+    rollupOptions: {
+      external: ['uuid'], // Указываем, что модуль должен оставаться внешним
+    },
   },
 })
