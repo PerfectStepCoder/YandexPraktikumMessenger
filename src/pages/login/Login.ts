@@ -1,6 +1,6 @@
 import { Block, Props} from "../../services/Component";
-//import compile from "../../utils/templator";
 import template from "./template";
+import "./Login.css"
 
 export default class Login extends Block {
     constructor(props: Props) {
