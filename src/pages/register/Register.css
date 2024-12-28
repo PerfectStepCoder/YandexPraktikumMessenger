@@ -1,0 +1,74 @@
+:root {
+    --background-color: #f4f4f9;
+    --font-color-primary: #333;
+    --form-background: #ffffff;
+    --form-shadow: rgba(0, 0, 0, 0.1);
+    --border-color: #ccc;
+    --button-primary: #5cb85c;
+    --button-primary-hover: #4cae4c;
+    --button-secondary: #0275d8;
+    --button-secondary-hover: #025aa5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--background-color);
+    font-family: Arial, sans-serif;
+}
+
+.register-form {
+    background-color: var(--form-background);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px var(--form-shadow);
+    width: 350px;
+}
+
+.register-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--font-color-primary);
+}
+
+.register-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+
+.register-form .buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.register-form button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--button-primary);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.register-form button:hover {
+    background-color: var(--button-primary-hover);
+}
+
+.register-form .enter-btn {
+    background-color: var(--button-secondary);
+}
+
+.register-form .enter-btn:hover {
+    background-color: var(--button-secondary-hover);
+}

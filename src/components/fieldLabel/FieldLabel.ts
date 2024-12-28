@@ -2,13 +2,14 @@ import { Block, Props}  from "../../services/Component";
 //import compile from "../../utils/templator";
 import template from "./template";
 
-export default class Button extends Block {
+
+export default class FieldLabel extends Block {
     constructor(props: Props) {
-      super("button", props);
+      super("field", props);
     }
   
     render(): DocumentFragment {
       // В данном случае render возвращает строкой разметку из шаблонизатора
       return this.compile(template, this.props);
     }
-}
+  }

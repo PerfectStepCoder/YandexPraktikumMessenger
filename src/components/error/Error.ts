@@ -1,10 +1,10 @@
 import { Block, Props}  from "../../services/Component";
-//import compile from "../../utils/templator";
 import template from "./template";
+import "./Error.css"
 
-export default class Button extends Block {
+export default class ErrorMsg extends Block {
     constructor(props: Props) {
-      super("button", props);
+      super("error", props);
     }
   
     render(): DocumentFragment {

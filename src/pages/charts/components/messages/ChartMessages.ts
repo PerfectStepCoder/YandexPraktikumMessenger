@@ -1,10 +1,10 @@
-import { Block, Props}  from "../../services/Component";
-//import compile from "../../utils/templator";
+import { Block, Props}  from "../../../../services/Component";
 import template from "./template";
 
-export default class Button extends Block {
+
+export default class ChartMessages extends Block {
     constructor(props: Props) {
-      super("button", props);
+      super("div", props);
     }
   
     render(): DocumentFragment {
