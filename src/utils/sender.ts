@@ -83,4 +83,3 @@ class HTTPClient {
       return this.request('DELETE', url, { body, headers });
     }
   }
-  
