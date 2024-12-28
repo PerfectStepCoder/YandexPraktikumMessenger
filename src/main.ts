@@ -1,5 +1,5 @@
 import { render } from "./utils/renderDOM";
-import { MakeLogin, MakeProfile, MakeRegister, MakeErrors, MakeCharts } from './pages/Maker';
+import { MakeLogin } from './pages/Maker';
 
 // app — это class дива в корне DOM
 

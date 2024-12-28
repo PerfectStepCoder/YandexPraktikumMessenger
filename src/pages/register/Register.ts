@@ -1,6 +1,6 @@
 import { Props } from "../../services/Component";
 import { FormBlock } from "../../services/FormBlock";
-import { validationRules, ValidationRules } from "../../utils/validation"
+import { validationRules } from "../../utils/validation"
 import template from "./template";
 import "./Register.css"
 

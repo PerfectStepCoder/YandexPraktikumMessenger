@@ -34,7 +34,7 @@ export class Block {
   private _meta: { tagName: string; props: Props } | null = null;
   protected props: Props;
   private eventBus: () => EventBus;
-  private _setUpdate: boolean = false;
+  //private _setUpdate: boolean = false;
   private _id: string;
   private children: Record<string, Block>;
 
@@ -93,6 +93,7 @@ export class Block {
 
   componentDidMount(oldProps?: Props): void {
     // Переопределяется пользователем
+    console.log(oldProps)
   }
 
   dispatchComponentDidMount(): void {
@@ -105,6 +106,8 @@ export class Block {
   }
 
   componentDidUpdate(oldProps: Props, newProps: Props): boolean {
+    console.log(oldProps)
+    console.log(newProps)
     return true; // Переопределяется пользователем
   }
 
@@ -174,8 +177,7 @@ export class Block {
     //     throw new Error("Нельзя удалить свойство props");
     //   },
     // });
-
-    const self = this;
+    //const self = this;
     return props;
   }
 
