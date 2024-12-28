@@ -1,4 +1,4 @@
-import Block from "../services/Component"; // Импорт базового класса Block, если он используется
+import { Block } from "../services/Component"; // Импорт базового класса Block, если он используется
 
 export function render(query: string, block: Block): HTMLElement | null {
   
@@ -6,6 +6,8 @@ export function render(query: string, block: Block): HTMLElement | null {
 
   if (!root) {
     throw new Error(`Элемент с селектором "${query}" не найден.`);
+  } else {
+    root.innerHTML = ""
   }
 
   const content = block.getContent();  // getContent возвращает HTMLElement

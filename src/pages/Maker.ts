@@ -9,7 +9,7 @@ import ErrorMsg from "../components/error";
 import Charts from "./charts";
 import ChatList from "./charts/components/chatList";
 import ChartMessages from "./charts/components/messages";
-
+import { render } from "../utils/renderDOM";
 
 export function MakeLogin() : Block {
     const fieldLogin = new Field({
@@ -35,6 +35,7 @@ export function MakeLogin() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
+                render(".app", MakeCharts())
             },
         },
     });
@@ -46,6 +47,7 @@ export function MakeLogin() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
+                render(".app", MakeRegister())
             },
         },
     });
@@ -343,6 +345,12 @@ export function MakeCharts() : Block {
             type: 'submit',
             name: 'send',
             buttonText: 'Send',
+            events: {
+                click: (event: MouseEvent) => {
+                    console.log(event);
+                    render(".app", MakeErrors(500))
+                },
+            }
         }) 
     })
 
