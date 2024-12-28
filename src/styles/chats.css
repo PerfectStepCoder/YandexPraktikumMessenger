@@ -14,9 +14,9 @@
     /* Chat area */
     --chat-area-bg: #ecf0f1;
     --chat-area-padding: 20px;
-    --chat-message-bg: #ffffff;
+    --chat-message-bg: #fff;
     --chat-message-author-bg: #3498db;
-    --chat-message-shadow: rgba(0, 0, 0, 0.1);
+    --chat-message-shadow: rgb(0 0 0 / 10%);
 
     /* Message input */
     --input-bg: #bdc3c7;

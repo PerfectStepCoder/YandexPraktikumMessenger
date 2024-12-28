@@ -1,7 +1,7 @@
 :root {
     --background-color: #f4f4f9;
-    --container-background: #ffffff;
-    --container-shadow: rgba(0, 0, 0, 0.1);
+    --container-background: #fff;
+    --container-shadow: rgb(0 0 0 / 10%);
     --font-color-primary: #333;
     --border-color: #ccc;
     --button-primary: #5cb85c;

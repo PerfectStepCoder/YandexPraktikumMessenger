@@ -1,8 +1,8 @@
 :root {
     --background-color: #f4f4f9;
     --font-color-primary: #333;
-    --form-background: #ffffff;
-    --form-shadow: rgba(0, 0, 0, 0.1);
+    --form-background: #fff;
+    --form-shadow: rgb(0 0 0 / 10%);
     --border-color: #ccc;
     --button-primary: #5cb85c;
     --button-primary-hover: #4cae4c;
