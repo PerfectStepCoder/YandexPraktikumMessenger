@@ -20,3 +20,7 @@ Add: env.d.ts
 > npm install eslint eslint-plugin-vite @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
 > npx eslint --init
 > npm run lint
+
+Подключение Stylelint и запуск
+> npm install --save-dev stylelint stylelint-config-standard stylelint-scss
+> npm run lint:styles
