@@ -297,7 +297,7 @@ export function MakeRegister() : Block {
 
 export function MakeErrors(errorCode : number) : Block {
 
-    var props = {}
+    let props = {}
 
     switch (errorCode) {
         case 400:
@@ -318,7 +318,7 @@ export function MakeErrors(errorCode : number) : Block {
           console.log(`Sorry, we are out of ${errorCode}.`);
       }
 
-      var output = new ErrorMsg(props);
+      const output = new ErrorMsg(props);
 
       return output;
 }

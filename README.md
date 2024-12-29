@@ -24,3 +24,6 @@ Add: env.d.ts
 Подключение Stylelint и запуск
 > npm install --save-dev stylelint stylelint-config-standard stylelint-scss
 > npm run lint:styles
+
+Проверка безопасность сайта:
+> npm audit fix
