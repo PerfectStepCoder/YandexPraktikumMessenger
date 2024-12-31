@@ -1,9 +1,10 @@
 import { Block }  from "../../services/Component";
-//import compile from "../../utils/templator";
 import template from "./template";
 
+type Listener<T = any> = (...args: T[]) => void;
+
 interface ButtonProps extends Record<string, unknown> {
-  events? : Record<string, EventListener>
+  events? : Record<string, Listener>
 }
 
 export default class Button extends Block<ButtonProps> {

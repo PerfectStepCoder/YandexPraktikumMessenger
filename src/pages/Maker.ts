@@ -37,7 +37,6 @@ export function MakeLogin() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
-                
                 render(".app", MakeCharts())
             },
         },
