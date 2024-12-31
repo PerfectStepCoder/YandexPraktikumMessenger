@@ -16,7 +16,7 @@ interface ChildrenAndProps<TProps> {
   props: TProps;
 }
 
-export class Block<TProps extends Record<string, unknown> = {indx: 1}> {
+export class Block<TProps extends Record<string, unknown> = {}> {
   static EVENTS: BlockEvents = {
     EVENT_INIT: "init",
     EVENT_FLOW_CDM: "flow:component-did-mount",
