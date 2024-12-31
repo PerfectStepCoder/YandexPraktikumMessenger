@@ -4,11 +4,6 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
   root: 'src',
-  resolve: {
-    alias: {
-      uuid: 'uuid/dist/esm-browser/index.js', // Явно указываем браузерную версию
-    },
-  },
   plugins: [
     handlebars({
       partialDirectory: './src/pages/oldTemplates',

@@ -1,9 +1,13 @@
-import { Block, Props}  from "../../services/Component";
+import { Block }  from "../../services/Component";
 import template from "./template";
 import "./Error.css"
 
-export default class ErrorMsg extends Block {
-    constructor(props: Props) {
+interface ErrorProps extends Record<string, unknown> {
+    errorCode?: number // в будущем буду использовать это свойство
+}
+
+export default class ErrorMsg extends Block<ErrorProps> {
+    constructor(props: ErrorProps) {
       super("error", props);
     }
   

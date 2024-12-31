@@ -1,9 +1,13 @@
-import { Block, Props}  from "../../services/Component";
+import { Block }  from "../../services/Component";
 //import compile from "../../utils/templator";
 import template from "./template";
 
-export default class Button extends Block {
-    constructor(props: Props) {
+interface ButtonProps extends Record<string, unknown> {
+  events? : Record<string, EventListener>
+}
+
+export default class Button extends Block<ButtonProps> {
+    constructor(props: ButtonProps) {
       super("button", props);
     }
   

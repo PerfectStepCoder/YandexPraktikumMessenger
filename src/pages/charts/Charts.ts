@@ -1,9 +1,13 @@
-import { Block, Props}  from "../../services/Component";
+import { Block }  from "../../services/Component";
 import template from "./template";
 import "./Charts.css"
 
-export default class Charts extends Block {
-    constructor(props: Props) {
+interface ChartsProps extends Record<string, unknown> {
+    count? : number // буду использовать в будущем
+}
+
+export default class Charts extends Block<ChartsProps> {
+    constructor(props: ChartsProps) {
       super("div", props);
     }
   

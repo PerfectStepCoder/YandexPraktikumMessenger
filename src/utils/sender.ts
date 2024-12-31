@@ -98,3 +98,7 @@ class HTTPClient {
     return this.request<T>('DELETE', url, { body, headers });
   }
 }
+
+// Пример использования
+const httpClient = new HTTPClient()
+httpClient.get("https://google.com")

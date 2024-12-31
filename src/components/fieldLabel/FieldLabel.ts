@@ -1,10 +1,12 @@
-import { Block, Props}  from "../../services/Component";
-//import compile from "../../utils/templator";
+import { Block }  from "../../services/Component";
 import template from "./template";
 
+interface FieldLabelProps extends Record<string, unknown> {
+  defaultValue? : string // буду использовать в будущем
+}
 
-export default class FieldLabel extends Block {
-    constructor(props: Props) {
+export default class FieldLabel extends Block<FieldLabelProps> {
+    constructor(props: FieldLabelProps) {
       super("field", props);
     }
   

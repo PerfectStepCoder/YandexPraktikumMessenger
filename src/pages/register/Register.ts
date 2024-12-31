@@ -1,5 +1,4 @@
-import { Props } from "../../services/Component";
-import { FormBlock } from "../../services/FormBlock";
+import { FormBlock, FormProps } from "../../services/FormBlock";
 import { validationRules } from "../../utils/validation"
 import template from "./template";
 import "./Register.css"
@@ -9,7 +8,7 @@ export default class Register extends FormBlock {
 
     static mainForm: HTMLElement
 
-    constructor(props: Props) {
+    constructor(props: FormProps) {
       super(props, template);
     }
   
@@ -86,17 +85,8 @@ export default class Register extends FormBlock {
     // Обработка отправки формы
     private handleSubmitForm(event: SubmitEvent): void {
       event.preventDefault();
-
       if (this.validateForm()) {
         console.log("Форма успешно отправлена");
-        // const formData = new FormData(Register.mainForm);
-        // const data: Record<string, string> = {};
-
-        // formData.forEach((value, key) => {
-        //   data[key] = value.toString();
-        // });
-
-        //console.log("Form Data:", data);
       } else {
         console.log("Форма содержит ошибки.");
       }

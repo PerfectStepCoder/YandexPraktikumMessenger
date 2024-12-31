@@ -10,6 +10,8 @@ import Charts from "./charts";
 import ChatList from "./charts/components/chatList";
 import ChartMessages from "./charts/components/messages";
 import { render } from "../utils/renderDOM";
+import { HttpStatusCode } from "../utils/httpCodes"
+
 
 export function MakeLogin() : Block {
     const fieldLogin = new Field({
@@ -35,6 +37,7 @@ export function MakeLogin() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
+                
                 render(".app", MakeCharts())
             },
         },
@@ -295,21 +298,21 @@ export function MakeRegister() : Block {
     return profilePage;
 }
 
-export function MakeErrors(errorCode : number) : Block {
+export function MakeErrors(errorCode : HttpStatusCode) : Block {
 
     let props = {}
 
     switch (errorCode) {
-        case 400:
+        case HttpStatusCode.BAD_REQUEST:
             props = {
-                errorCode: 400,
+                errorCode: errorCode,
                 errorMessage: "Bad Request",
                 errorDetails: "Oops! The request could not be understood by the server. Please check your input and try again."
             }
             break;
-        case 500:
+        case HttpStatusCode.INTERNAL_SERVER_ERROR:
             props = {
-                errorCode: 500,
+                errorCode: errorCode,
                 errorMessage: "Internal Server Error",
                 errorDetails: "Oops! Something went wrong on our end. Please try again later."
             }

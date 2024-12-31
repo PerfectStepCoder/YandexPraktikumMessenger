@@ -1,11 +1,15 @@
-import { Block, Props} from "./Component";
+import { Block } from "./Component";
 
-export class FormBlock extends Block {
+export interface FormProps extends Record<string, unknown> {
+    labelForm?: string // будет использовано в будущем
+}
+
+export class FormBlock extends Block<FormProps> {
     
     private formElement: HTMLElement | null = null;
     static template: string = ""
 
-    constructor(props: Props, template: string) {
+    constructor(props: FormProps, template: string) {
         FormBlock.template = template
         super("formBlock", props);
     }
