@@ -6,7 +6,7 @@ export default defineConfig({
   root: 'src',
   plugins: [
     handlebars({
-      partialDirectory: './src/pages',
+      partialDirectory: './src/pages/oldTemplates',
     }),
     viteStaticCopy({
         targets: [
@@ -15,7 +15,7 @@ export default defineConfig({
             dest: ''
           },
           {
-            src: './pages/*.hbs',
+            src: './pages/oldTemplates/*.hbs',
             dest: 'assets/pages'
           }
         ]
@@ -24,8 +24,11 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  assetsInclude: ['./pages/*.hbs'],
+  assetsInclude: ['./pages/oldTemplates/*.hbs'],
   build: {
     outDir: '../build',
+    rollupOptions: {
+      external: ['uuid'], // Указываем, что модуль должен оставаться внешним
+    },
   },
 })
