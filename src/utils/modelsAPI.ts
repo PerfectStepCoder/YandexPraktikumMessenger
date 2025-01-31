@@ -1,4 +1,3 @@
-
 export interface ResponseUser {
     id: number;
     first_name:	string;
@@ -14,4 +13,3 @@ export interface RequestLogin {
     login: string;
     password: string;
 }
-   
