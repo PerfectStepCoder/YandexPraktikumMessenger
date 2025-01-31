@@ -12,13 +12,3 @@ const template = `
 `;
 
 export default template
-
-// <div class="message">
-// Hello, how are you?
-// </div>
-// <div class="message author">
-// I'm good, thanks! How about you?
-// </div>
-// <div class="message">
-// Doing great! What’s new?
-// </div>
