@@ -6,6 +6,7 @@ const template = `
         {{ secondName }}
         {{ displayName }}
         {{ login }}
+        {{ password }}
         {{ email }}
         {{ phone }}
         {{ saveButton }}

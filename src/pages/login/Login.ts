@@ -25,11 +25,11 @@ export default class Login extends Block<LoginProps> {
     // Обработка отправки формы
     private handleSubmitForm(event: SubmitEvent): void {
       event.preventDefault();
-      if (this.validateForm()) {
-        console.log("Форма успешно отправлена");
-      } else {
-        console.log("Форма содержит ошибки.");
-      }
+      // if (this.validateForm()) {
+      //   console.log("Форма успешно отправлена");
+      // } else {
+      //   console.log("Форма содержит ошибки.");
+      // }
     }
 
     // Проверяем всю форму

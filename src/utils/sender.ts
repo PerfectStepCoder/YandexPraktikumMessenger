@@ -35,6 +35,7 @@ class HTTPClient {
       const queryString = query ? this.buildQueryString(query) : '';
       const fullUrl = this.baseUrl + url + (queryString ? `?${queryString}` : '');
 
+      xhr.withCredentials = true;
       xhr.open(method, fullUrl, true);
 
       // Устанавливаем заголовки
@@ -99,6 +100,4 @@ class HTTPClient {
   }
 }
 
-// Пример использования
-const httpClient = new HTTPClient()
-httpClient.get("https://google.com")
+export default HTTPClient;

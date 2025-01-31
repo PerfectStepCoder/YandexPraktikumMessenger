@@ -8,7 +8,10 @@ type BlockEvents = {
   EVENT_FLOW_CDM: "flow:component-did-mount";
   EVENT_FLOW_CDU: "flow:component-did-update";
   EVENT_FLOW_RENDER: "flow:render";
+  EVENT_FLOW_UPDATE: "flow:component-update"
 };
+
+type Listener<T = any> = (...args: T[]) => void;
 
 // Тип для результата функции выделения блоков
 interface ChildrenAndProps<TProps> {
@@ -22,6 +25,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
     EVENT_FLOW_CDM: "flow:component-did-mount",
     EVENT_FLOW_CDU: "flow:component-did-update",
     EVENT_FLOW_RENDER: "flow:render",
+    EVENT_FLOW_UPDATE: "flow:component-update"
   };
 
   private _element: HTMLElement | null = null;
@@ -47,6 +51,14 @@ export class Block<TProps extends Record<string, unknown> = {}> {
 
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.EVENT_INIT);
+  }
+
+  public bindEvent(event: string, callback: Listener) {
+    this.eventBus().on(event, callback)
+  }
+
+  public emitEvent(event: string) {
+    this.eventBus().emit(event);
   }
 
   private _registerEvents(eventBus: EventBus): void {
