@@ -6,7 +6,7 @@ const template = `
         {{ inputTitleChart }}
 
         {{ saveChat }}
-         
+
     </form>
 </div>
 `;
