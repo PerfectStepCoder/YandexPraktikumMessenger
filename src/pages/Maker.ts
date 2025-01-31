@@ -58,23 +58,15 @@ export function MakeLogin(navigate: Router) : Block {
                     password: passwordValue
                 };
 
-               // Разлогиниваемся
-            //    httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/logout", userLogin)
-            //    .then(response => {
-            //        console.log('Ответ сервера:', response);
-            //        return;
-            //    })
-            //    .catch(error => {
-            //        console.error('Ошибка:', error);
-            //        return;
-            //    });
-
                 httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/signin", userLogin, new Headers({ 'Content-Type': 'application/json' }))
                 .then(response => {
                     console.log('Ответ сервера:', response);
                     navigate.go('/messenger')
                 })
                 .catch(error => {
+                    if (error.response === '{"reason":"User already in system"}') {
+                        navigate.go("/messenger");
+                    }
                     console.error('Ошибка:', error);
                 }); 
             },

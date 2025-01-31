@@ -88,10 +88,6 @@ body {
     background-color: var(--chat-list-hover);
 }
 
-.chat-list ul li.active {
-    background-color: var(--chat-list-active);
-}
-
 .chat-area {
     width: 100%;
     display: flex;
