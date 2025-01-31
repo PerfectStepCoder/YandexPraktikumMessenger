@@ -17,9 +17,11 @@ import HTTPClient from '../utils/sender'
 import { ResponseUser, RequestLogin } from '../utils/modelsAPI'
 import { fetchChats, addEventChartListeners } from "./charts/components/chatList/ChartList";
 import { MyWebSocketClient } from '../utils/webSocket';
-import { getActiveListItemId, addMessage } from '../utils/chartHelpers'
+import { getActiveListItemId, addMessage, getChartToken } from '../utils/chartHelpers'
 
 const httpClient = new HTTPClient();
+var myWebSocketClient: MyWebSocketClient | null = null;
+var currentChatId: number = -1
 
 export function MakeLogin(navigate: Router) : Block {
 
@@ -421,6 +423,8 @@ export function MakeErrors(errorCode : HttpStatusCode) : Block {
 
 export function MakeCharts(navigate: Router, userID: number) : Block {
 
+    console.log("userID", userID);
+
     const titleChart = new FieldLabel({
         className: 'form-group-chart',
         type: 'text',
@@ -467,6 +471,25 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
         }
     });
 
+    const buttonLogout = new Button({
+        className: 'form-group-chart',
+        type: 'submit',
+        buttonText: 'Logout',
+        events: {
+            click: (event: MouseEvent) => {
+                event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/logout")
+                .then(response => {
+                    console.log('Ответ сервера:', response);
+                    navigate.go('/');
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        }
+    });
+
     const chartControl = new ChartControl({
         inputTitleChart: titleChart,
         saveChat: buttonSaveChart
@@ -476,7 +499,8 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
         title: "ChatList",
         className: 'chat-list',
         charts: "",
-        chartControl: chartControl 
+        chartControl: chartControl,
+        buttonLogout: buttonLogout 
     }, httpClient)
 
     const chartMessages = new ChartMessages({
@@ -496,21 +520,25 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
             buttonText: 'Send',
             events: {
                 click: (event: MouseEvent) => {
-                    console.log(event);
-                    const chatId = getActiveListItemId();
-                    const newMessage = (document.querySelector('input[name="message"]') as HTMLInputElement).value;
-                    addMessage(newMessage, true);
-                    // if (chatId != null) {
-                    //     const token = getChartToken(httpClient, chatId);
-                    //     const urlWS = `wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`;
-                    //     const myWebSocketClient = new MyWebSocketClient(urlWS);
-                    //     myWebSocketClient.connect();
-                    //     const newMessage = (document.querySelector('input[name="message"]') as HTMLInputElement).value;
-                    //     myWebSocketClient.send(newMessage);
-                        
-                    // } else {
-                    //     console.log('Select chart!');
-                    // }
+                    (async () => {
+                        const chatId = getActiveListItemId();
+ 
+                        const newMessage = (document.querySelector('input[name="message"]') as HTMLInputElement).value;
+      
+                        if (chatId != null) {
+                            if (currentChatId != chatId) {
+                                const token = await getChartToken(httpClient, chatId);
+                                const urlWS = `wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`;
+                                console.log("urlWS", urlWS);
+                                myWebSocketClient = new MyWebSocketClient(urlWS);
+                                myWebSocketClient.connect();
+                            } 
+                            addMessage(newMessage, true);
+                            myWebSocketClient?.send(newMessage)    
+                        } else {
+                            console.log('Select chart!');
+                        }
+                    })();
                 },
             }
         }) 
@@ -524,6 +552,4 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
 
     return output;
 }
-function getChartToken(httpClient: HTTPClient, chatId: number) {
-    throw new Error("Function not implemented.");
-}
+

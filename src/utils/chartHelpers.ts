@@ -29,18 +29,14 @@ export async function fetchChartToken(httpClient: HTTPClient, chartID: number) {
     }
   }
 
-export function getChartToken(httpClient: HTTPClient, chartID: number): string | null {
-
-    fetchChartToken(httpClient, chartID)
-    .then(token => {
-        return token;
-    })
-    .catch(error => {
+export async function getChartToken(httpClient: HTTPClient, chartID: number) { //: string | null
+    try {
+        const token = await fetchChartToken(httpClient, chartID);
+        return token; // Возвращаем token
+    } catch (error) {
         console.error('Ошибка при загрузке token:', error);
-    });
-
-    // Если активный элемент не найден, возвращаем null
-    return null;
+        return null; // Возвращаем null в случае ошибки
+    }
 }
 
 export function addMessage(text: string, isAuthor: boolean = false): void {

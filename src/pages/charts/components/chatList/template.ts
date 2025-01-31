@@ -8,15 +8,8 @@ const template = `
     
     {{ chartControl }}
 
+    {{ buttonLogout }}
 </div>
 `;
 
 export default template
-
-
-// <ul>
-// <li class="active">Chat 1</li>
-// <li>Chat 2</li>
-// <li>Chat 3</li>
-// <li>Chat 4</li>
-// </ul>
