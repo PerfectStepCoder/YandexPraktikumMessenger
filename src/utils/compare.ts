@@ -1,5 +1,5 @@
 
-function isEmpty(value: any) {
+export function isEmpty(value: any) {
     switch (value) {
           case null: {
               return true;
@@ -58,7 +58,7 @@ function isArrayOrObject(value: unknown): value is ([] | PlainObject) {
     return isPlainObject(value) || isArray(value);
 }
 
-function isEqual(lhs: PlainObject, rhs: PlainObject) {
+export function isEqual(lhs: PlainObject, rhs: PlainObject) {
   // Сравнение количества ключей объектов и массивов
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
     return false;

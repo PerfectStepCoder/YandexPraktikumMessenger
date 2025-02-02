@@ -10,18 +10,18 @@ import Charts from "./charts";
 import ChatList from "./charts/components/chatList";
 import ChartControl from './charts/components/chartControl'
 import ChartMessages from "./charts/components/messages";
-import { render } from "../utils/renderDOM";
+//import { render } from "../utils/renderDOM";
 import { HttpStatusCode } from "../utils/httpCodes"
 import Router from '../router'
 import HTTPClient from '../utils/sender'
-import { ResponseUser, RequestLogin } from '../utils/modelsAPI'
+//import { ResponseUser, RequestLogin } from '../utils/modelsAPI'
 import { fetchChats, addEventChartListeners } from "./charts/components/chatList/ChartList";
 import { MyWebSocketClient } from '../utils/webSocket';
 import { getActiveListItemId, addMessage, getChartToken } from '../utils/chartHelpers'
 
 const httpClient = new HTTPClient();
-var myWebSocketClient: MyWebSocketClient | null = null;
-var currentChatId: number = -1
+let myWebSocketClient: MyWebSocketClient | null = null;
+let currentChatId: number = -1
 
 export function MakeLogin(navigate: Router) : Block {
 
@@ -205,6 +205,7 @@ export function MakeProfile(navigate: Router) : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
+                navigate.go('/messenger')
             },
         },
     });
@@ -340,7 +341,7 @@ export function MakeRegister(navigate: Router) : Block {
                 // Получаем значения логина и пароля
                 const firstName = (document.querySelector('input[name="first_name"]') as HTMLInputElement).value;
                 const secondName = (document.querySelector('input[name="second_name"]') as HTMLInputElement).value;
-                const displayName = (document.querySelector('input[name="display_name"]') as HTMLInputElement).value;
+                //const displayName = (document.querySelector('input[name="display_name"]') as HTMLInputElement).value;
                 const login = (document.querySelector('input[name="login"]') as HTMLInputElement).value;
                 const password = (document.querySelector('input[name="password"]') as HTMLInputElement).value;
                 const email = (document.querySelector('input[name="email"]') as HTMLInputElement).value;
@@ -512,6 +513,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
             buttonText: 'Send',
             events: {
                 click: (event: MouseEvent) => {
+                    console.log(event);
                     (async () => {
                         const chatId = getActiveListItemId();
  

@@ -61,16 +61,19 @@ export class WebSocketClientBase {
     // Метод, вызываемый при получении сообщения
     protected onMessage(data: WebSocketMessage): void {
         // Переопределите этот метод в дочернем классе, если нужно
+        console.log(data);
     }
 
     // Метод, вызываемый при ошибке
     protected onError(event: Event): void {
         // Переопределите этот метод в дочернем классе, если нужно
+        console.log(event);
     }
 
     // Метод, вызываемый при закрытии соединения
     protected onClose(event: CloseEvent): void {
         // Переопределите этот метод в дочернем классе, если нужно
+        console.log(event);
     }
 }
 

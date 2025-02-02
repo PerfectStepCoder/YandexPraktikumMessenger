@@ -1,14 +1,14 @@
 import { MakeLogin, MakeProfile, MakeRegister, MakeCharts } from './pages/Maker';
 import Router from './router'
 import HTTPClient from './utils/sender'
-import { ResponseUser } from './utils/modelsAPI'
-import { MyWebSocketClient } from './utils/webSocket'
+// import { ResponseUser } from './utils/modelsAPI'
+// import { MyWebSocketClient } from './utils/webSocket'
 import { fetchUserID } from './utils/userHelpers';
 
 const httpClient = new HTTPClient();
 
 const router = new Router(".app");
-var currentUserID: number = 0;
+let currentUserID: number = 0;
 
 fetchUserID(httpClient)
 .then(userID => {

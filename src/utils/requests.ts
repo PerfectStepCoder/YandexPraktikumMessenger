@@ -1,14 +1,14 @@
 type StringIndexed = Record<string, any>;
 
-const obj: StringIndexed = {
-    key: 1,
-    key2: 'test',
-    key3: false,
-    key4: true,
-    key5: [1, 2, 3],
-    key6: {a: 1},
-    key7: {b: {d: 2}},
-};
+// const obj: StringIndexed = {
+//     key: 1,
+//     key2: 'test',
+//     key3: false,
+//     key4: true,
+//     key5: [1, 2, 3],
+//     key6: {a: 1},
+//     key7: {b: {d: 2}},
+// };
 
 function queryStringify(data: StringIndexed): string | never {
     if (typeof data !== "object" || data === null) {
