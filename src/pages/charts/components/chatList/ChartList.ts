@@ -1,6 +1,6 @@
 import { Block }  from "../../../../services/Component";
 import template from "./template";
-import HTTPClient from '../utils/sender'
+import HTTPClient from '../../../../utils/sender'
 import { clearMessage } from "../../../../utils/chartHelpers";
 //import { MyWebSocketClient } from "../../../../utils/webSocket";
 

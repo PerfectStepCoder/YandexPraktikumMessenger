@@ -21,22 +21,23 @@ export function isEmpty(value: any) {
           }
       }
         switch (typeof(value)) {
-          case "number": {
-              return true;
-          }
-          case "string": {
-              return false;
-          }
-          case "object": {
-              if (Array.isArray(value)) {
-                  return false;
-              }
-              if (value instanceof Set || value instanceof Map) {
-                  return false;
-              }
-              return false;
-          }
-      }
+            case "number": {
+                return true;
+            }
+            case "string": {
+                return false;
+            }
+            case "object": {
+                if (Array.isArray(value)) {
+                    return false;
+                }
+                if (value instanceof Set || value instanceof Map) {
+                    return false;
+                }
+                return false;
+            }
+        }
+        return false;
   }
 
 function isArray(value: unknown): value is [] {
@@ -67,9 +68,9 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
   for (const [key, value] of Object.entries(lhs)) {
     const rightValue = rhs[key];
     if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
-            // Здесь value и rightValue может быть только массивом или объектом
-            // И TypeScript это обрабатывает
-      if (isEqual(value, rightValue)) {
+        // Здесь value и rightValue может быть только массивом или объектом
+        // И TypeScript это обрабатывает
+      if (!value && !rightValue && isEqual(value, rightValue)) {
         continue;
       }
       return false;
