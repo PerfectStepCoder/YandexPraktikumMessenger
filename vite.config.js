@@ -22,7 +22,7 @@ export default defineConfig({
     })
   ],
   server: {
-    port: 30007,
+    port: 3000,
   },
   assetsInclude: ['./pages/oldTemplates/*.hbs'],
   build: {
