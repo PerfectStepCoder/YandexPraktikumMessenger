@@ -8,12 +8,23 @@ import Register from "./register"
 import ErrorMsg from "../components/error";
 import Charts from "./charts";
 import ChatList from "./charts/components/chatList";
+import ChartControl from './charts/components/chartControl'
 import ChartMessages from "./charts/components/messages";
-import { render } from "../utils/renderDOM";
+//import { render } from "../utils/renderDOM";
 import { HttpStatusCode } from "../utils/httpCodes"
+import Router from '../router'
+import HTTPClient from '../utils/sender'
+//import { ResponseUser, RequestLogin } from '../utils/modelsAPI'
+import { fetchChats, addEventChartListeners } from "./charts/components/chatList/ChartList";
+import { MyWebSocketClient } from '../utils/webSocket';
+import { getActiveListItemId, addMessage, getChartToken } from '../utils/chartHelpers'
 
+const httpClient = new HTTPClient();
+let myWebSocketClient: MyWebSocketClient | null = null;
+let currentChatId: number = -1
 
-export function MakeLogin() : Block {
+export function MakeLogin(navigate: Router) : Block {
+
     const fieldLogin = new Field({
         className: 'className',
         type: 'text',
@@ -37,7 +48,27 @@ export function MakeLogin() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
-                render(".app", MakeCharts())
+ 
+                // Получаем значения логина и пароля
+                const loginValue = (document.querySelector('input[name="login"]') as HTMLInputElement).value;
+                const passwordValue = (document.querySelector('input[name="password"]') as HTMLInputElement).value;
+
+                const userLogin = {
+                    login: loginValue,
+                    password: passwordValue
+                };
+
+                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/signin", userLogin, new Headers({ 'Content-Type': 'application/json' }))
+                .then(response => {
+                    console.log('Ответ сервера:', response);
+                    navigate.go('/messenger')
+                })
+                .catch(error => {
+                    if (error.response === '{"reason":"User already in system"}') {
+                        navigate.go("/messenger");
+                    }
+                    console.error('Ошибка:', error);
+                }); 
             },
         },
     });
@@ -49,7 +80,7 @@ export function MakeLogin() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
-                render(".app", MakeRegister())
+                navigate.go('/sign-up')
             },
         },
     });
@@ -66,7 +97,7 @@ export function MakeLogin() : Block {
     return loginPage;
 }
 
-export function MakeProfile() : Block {
+export function MakeProfile(navigate: Router) : Block {
 
     const firstName = new FieldLabel({
         className: 'form-group',
@@ -174,6 +205,7 @@ export function MakeProfile() : Block {
         events: {
             click: (event: MouseEvent) => {
                 console.log(event);
+                navigate.go('/messenger')
             },
         },
     });
@@ -208,7 +240,7 @@ export function MakeProfile() : Block {
     return profilePage;
 }
 
-export function MakeRegister() : Block {
+export function MakeRegister(navigate: Router) : Block {
 
     const firstName = new FieldLabel({
         className: 'form-group',
@@ -219,7 +251,7 @@ export function MakeRegister() : Block {
         name: 'first_name',
         placeholderText: 'Enter your first name',
         required: 'required'
-    })
+    });
 
     const secondName = new FieldLabel({
         className: 'form-group',
@@ -230,7 +262,7 @@ export function MakeRegister() : Block {
         name: 'second_name',
         placeholderText: 'Enter your second name',
         required: 'required'
-    })
+    });
 
     const displayName = new FieldLabel({
         className: 'form-group',
@@ -241,7 +273,7 @@ export function MakeRegister() : Block {
         name: 'display_name',
         placeholderText: 'Enter your display name',
         required: 'required'
-    })
+    });
 
     const login = new FieldLabel({
         className: 'form-group',
@@ -252,7 +284,18 @@ export function MakeRegister() : Block {
         name: 'login',
         placeholderText: 'Enter your login',
         required: 'required'
-    })
+    });
+
+    const password = new FieldLabel({
+        className: 'form-group',
+        type: 'password',
+        labelFor: 'password',
+        labelText: 'Password:',
+        labelID: 'password',
+        name: 'password',
+        placeholderText: 'Enter your password',
+        required: 'required'
+    });
 
     const email = new FieldLabel({
         className: 'form-group',
@@ -276,10 +319,54 @@ export function MakeRegister() : Block {
         required: 'required'
     })
 
+    const phoneTwo = new FieldLabel({
+        className: 'form-group',
+        type: 'text',
+        labelFor: 'phone',
+        labelText: 'Phone:',
+        labelID: 'phone',
+        name: 'phone',
+        placeholderText: 'Enter your phone',
+        required: 'required'
+    })
+
     const buttonSubmit = new Button({
         className: 'buttons',
         type: 'submit',
         buttonText: 'Enter',
+        events: {
+            click: (event: MouseEvent) => {
+                console.log(event);
+ 
+                // Получаем значения логина и пароля
+                const firstName = (document.querySelector('input[name="first_name"]') as HTMLInputElement).value;
+                const secondName = (document.querySelector('input[name="second_name"]') as HTMLInputElement).value;
+                //const displayName = (document.querySelector('input[name="display_name"]') as HTMLInputElement).value;
+                const login = (document.querySelector('input[name="login"]') as HTMLInputElement).value;
+                const password = (document.querySelector('input[name="password"]') as HTMLInputElement).value;
+                const email = (document.querySelector('input[name="email"]') as HTMLInputElement).value;
+                const phone = (document.querySelector('input[name="phone"]') as HTMLInputElement).value;
+
+                const body = {
+                    first_name: firstName,
+                    second_name: secondName,
+                    login: login,
+                    email: email,
+                    password: password,
+                    phone: phone
+                };
+
+                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/signup", body)
+                    .then(response => {
+                        console.log('Ответ сервера:', response);
+                        navigate.go('/messenger')
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                    });
+
+            }
+        }
     });
 
     const profilePage = new Register({
@@ -289,8 +376,10 @@ export function MakeRegister() : Block {
         secondName: secondName,
         displayName: displayName,
         login: login,
+        password: password,
         email: email,
         phone: phone,
+        phoneTwo: phoneTwo,
         saveButton: buttonSubmit,
     });
 
@@ -325,12 +414,87 @@ export function MakeErrors(errorCode : HttpStatusCode) : Block {
       return output;
 }
 
-export function MakeCharts() : Block {
+export function MakeCharts(navigate: Router, userID: number) : Block {
 
+    console.log("userID", userID);
+
+    const titleChart = new FieldLabel({
+        className: 'form-group-chart',
+        type: 'text',
+        labelFor: 'title_chart',
+        labelText: 'Title Chart:',
+        labelID: 'title_chart',
+        name: 'title_chart',
+        placeholderText: 'Enter title of chart',
+        required: 'required'
+    });
+
+    const buttonSaveChart = new Button({
+        className: 'form-group-chart',
+        type: 'submit',
+        buttonText: 'Enter',
+        events: {
+            click: (event: MouseEvent) => {
+                event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+                const titleChart = (document.querySelector('input[name="title_chart"]') as HTMLInputElement).value;
+                console.log("Save chart:", titleChart);
+
+                const body = {
+                    title: titleChart
+                }
+                httpClient.post<string>("https://ya-praktikum.tech/api/v2/chats", body)
+                .then(response => {
+                    console.log('Ответ сервера:', response);
+                    return;
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    return;
+                }).finally(()=>{
+                    (document.querySelector('input[name="title_chart"]') as HTMLInputElement).value = "";
+                    fetchChats(httpClient)
+                    .then(chartsHTML => {
+                        // Вставляем HTML в DOM
+                        (document.querySelector('.chat-list ul') as HTMLInputElement).innerHTML = chartsHTML
+                    }).finally(()=>{
+                        addEventChartListeners()
+                    })
+                });
+            }
+        }
+    });
+
+    const buttonLogout = new Button({
+        className: 'form-group-chart',
+        type: 'submit',
+        buttonText: 'Logout',
+        events: {
+            click: (event: MouseEvent) => {
+                event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/logout")
+                .then(response => {
+                    console.log('Ответ сервера:', response);
+                    navigate.go('/');
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        }
+    });
+
+    const chartControl = new ChartControl({
+        inputTitleChart: titleChart,
+        saveChat: buttonSaveChart
+    });
+    
     const chartList = new ChatList({
         title: "ChatList",
-        className: 'chat-list'
-    })
+        className: 'chat-list',
+        charts: "",
+        chartControl: chartControl,
+        buttonLogout: buttonLogout 
+    }, httpClient)
 
     const chartMessages = new ChartMessages({
         title: "Chat Messages",
@@ -350,7 +514,25 @@ export function MakeCharts() : Block {
             events: {
                 click: (event: MouseEvent) => {
                     console.log(event);
-                    render(".app", MakeErrors(500))
+                    (async () => {
+                        const chatId = getActiveListItemId();
+ 
+                        const newMessage = (document.querySelector('input[name="message"]') as HTMLInputElement).value;
+      
+                        if (chatId != null) {
+                            if (currentChatId != chatId) {
+                                const token = await getChartToken(httpClient, chatId);
+                                const urlWS = `wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`;
+                                console.log("urlWS", urlWS);
+                                myWebSocketClient = new MyWebSocketClient(urlWS);
+                                myWebSocketClient.connect();
+                            } 
+                            addMessage(newMessage, true);
+                            myWebSocketClient?.send(newMessage)    
+                        } else {
+                            console.log('Select chart!');
+                        }
+                    })();
                 },
             }
         }) 
@@ -364,3 +546,4 @@ export function MakeCharts() : Block {
 
     return output;
 }
+

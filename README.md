@@ -27,3 +27,22 @@ Add: env.d.ts
 
 Проверка безопасность сайта:
 > npm audit fix
+
+## Учетные записи для тестов
+const body = {
+  first_name: "Jhon Doe",
+  second_name: "Petra",
+  login: "Doom",
+  email: "test_test@mail.com",
+  password: "Wer45Ffguryry4df",
+  phone: "89164567879"
+};
+
+const body = {
+  first_name: "Hovard",
+  second_name: "Dudovich",
+  login: "Snigal",
+  email: "test_tes_snigal@mail.com",
+  password: "fdf5Gdfgir35SdfvS",
+  phone: "89164567880"
+};
