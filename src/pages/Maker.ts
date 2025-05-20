@@ -19,7 +19,10 @@ import { fetchChats, addEventChartListeners } from "./charts/components/chatList
 import { MyWebSocketClient } from '../utils/webSocket';
 import { getActiveListItemId, addMessage, getChartToken } from '../utils/chartHelpers'
 
-const httpClient = new HTTPClient();
+const apiUrl = import.meta.env.VITE_API_URL;
+
+const httpClient = new HTTPClient(apiUrl);
+
 let myWebSocketClient: MyWebSocketClient | null = null;
 let currentChatId: number = -1
 
@@ -58,7 +61,7 @@ export function MakeLogin(navigate: Router) : Block {
                     password: passwordValue
                 };
 
-                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/signin", userLogin, new Headers({ 'Content-Type': 'application/json' }))
+                httpClient.post<string>("/auth/signin", userLogin, new Headers({ 'Content-Type': 'application/json' }))
                 .then(response => {
                     console.log('Ответ сервера:', response);
                     navigate.go('/messenger')
@@ -356,7 +359,7 @@ export function MakeRegister(navigate: Router) : Block {
                     phone: phone
                 };
 
-                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/signup", body)
+                httpClient.post<string>("/signup", body)
                     .then(response => {
                         console.log('Ответ сервера:', response);
                         navigate.go('/messenger')
@@ -432,7 +435,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
     const buttonSaveChart = new Button({
         className: 'form-group-chart',
         type: 'submit',
-        buttonText: 'Enter',
+        buttonText: 'Add new chart',
         events: {
             click: (event: MouseEvent) => {
                 event.preventDefault(); // Останавливаем стандартное поведение отправки формы
@@ -442,7 +445,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                 const body = {
                     title: titleChart
                 }
-                httpClient.post<string>("https://ya-praktikum.tech/api/v2/chats", body)
+                httpClient.post<string>("/chats", body)
                 .then(response => {
                     console.log('Ответ сервера:', response);
                     return;
@@ -471,14 +474,16 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
         events: {
             click: (event: MouseEvent) => {
                 event.preventDefault(); // Останавливаем стандартное поведение отправки формы
-                httpClient.post<string>("https://ya-praktikum.tech/api/v2/auth/logout")
-                .then(response => {
-                    console.log('Ответ сервера:', response);
-                    navigate.go('/');
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                });
+                navigate.go('/');
+
+                // httpClient.post<string>("/auth/logout")
+                // .then(response => {
+                //     console.log('Ответ сервера:', response);
+                //     navigate.go('/');
+                // })
+                // .catch(error => {
+                //     console.error('Ошибка:', error);
+                // });
             }
         }
     });

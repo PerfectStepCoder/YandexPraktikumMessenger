@@ -15,7 +15,7 @@ interface ChartFromBack {
 
 export async function fetchChats(httpClient: HTTPClient) {
   try {
-      const response = await httpClient.get<ChartFromBack[]>("https://ya-praktikum.tech/api/v2/chats?offset=0&limit=100");
+      const response = await httpClient.get<ChartFromBack[]>("/chats?offset=0&limit=100");
       console.log('Ответ сервера charts:', response);
 
       const chartsHTML = response.map( (chat: ChartFromBack) => `<li data-id="${chat.id}">${chat.title}</li>`).join('');
@@ -30,7 +30,7 @@ export async function fetchChats(httpClient: HTTPClient) {
 
 export async function fetchMessagesChart(httpClient: HTTPClient, chartId: number) {
   try {
-      const response = await httpClient.get<ChartFromBack[]>("https://ya-praktikum.tech/api/v2/chats?offset=0&limit=100");
+      const response = await httpClient.get<ChartFromBack[]>("/chats?offset=0&limit=100");
       console.log('Ответ сервера charts:', response, chartId);
 
       const chartsHTML = response.map( (chat: ChartFromBack) => `<li data-id="${chat.id}">${chat.title}</li>`).join('');
