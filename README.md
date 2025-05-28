@@ -1,12 +1,10 @@
 # YandexPraktikum Messanger
 Учебный проект мессендера в ЯндексПрактикум
+(дизайн сайт очень ужастный, я сосредоточился на работе TS скриптов, в будущем сделаю дизайн лучше на bootstrap)
 
 ## Start project
 Запуск сайта на 3000 порту
 >npm run start
-
-## Deploy site
-https://ymessanger.netlify.app/
 
 ## TypeScript
 > ts-node script.ts

@@ -1,23 +1,24 @@
+import LayoutMain from "../layout/main";
 import Button from "../components/button";
 import Field from "../components/field";
 import FieldLabel from "../components/fieldLabel";
-import { Block } from "../services/Component";
-import Login from "./login";
+import { Block } from "../common/Component";
 import Profile from "./profile"
 import Register from "./register"
 import ErrorMsg from "../components/error";
 import Charts from "./charts";
 import ChatList from "./charts/components/chatList";
 import ChartControl from './charts/components/chartControl'
-import ChartMessages from "./charts/components/messages";
-//import { render } from "../utils/renderDOM";
-import { HttpStatusCode } from "../utils/httpCodes"
+import ChartMessages from "./charts/modules/messages";
+import { HttpStatusCode } from "../services/httpCodes"
 import Router from '../router'
-import HTTPClient from '../utils/sender'
-//import { ResponseUser, RequestLogin } from '../utils/modelsAPI'
-import { fetchChats, addEventChartListeners } from "./charts/components/chatList/ChartList";
-import { MyWebSocketClient } from '../utils/webSocket';
-import { getActiveListItemId, addMessage, getChartToken } from '../utils/chartHelpers'
+import HTTPClient from '../services/sender'
+import { fetchChats, addEventSelectChat } from "./charts/components/chatList/ChartList";
+import { getNewConnectSocket, MyWebSocketClient } from '../services/webSocket';
+import { getActiveListItemId, addMessage, getChartToken } from '../services/chartHelpers'
+import { CreateLogin } from "./login";
+import CreateRegister from "./register/maker";
+import AddUserInChat from "./charts/components/addUserInChat";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -26,81 +27,29 @@ const httpClient = new HTTPClient(apiUrl);
 let myWebSocketClient: MyWebSocketClient | null = null;
 let currentChatId: number = -1
 
-export function MakeLogin(navigate: Router) : Block {
+export function MakeLogin(navigate: Router, currentUserID: number) : Block {
 
-    const fieldLogin = new Field({
-        className: 'className',
-        type: 'text',
-        name: 'login',
-        placeholderText: 'Login',
-        required: 'required'
+    if (currentUserID !== 0) {
+        navigate.go('/messenger');
+    }
+
+    const loginPage = CreateLogin(navigate, httpClient)
+
+    const layout = new LayoutMain({
+        mainContent: loginPage,
+        className: "layout"
     });
 
-    const fieldPassword = new Field({
-        className: 'className',
-        type: 'password',
-        name: 'password',
-        placeholderText: 'Password',
-        required: 'required'
-    });
-
-    const buttonSubmit = new Button({
-        className: 'className',
-        type: 'submit',
-        buttonText: 'Enter',
-        events: {
-            click: (event: MouseEvent) => {
-                console.log(event);
- 
-                // Получаем значения логина и пароля
-                const loginValue = (document.querySelector('input[name="login"]') as HTMLInputElement).value;
-                const passwordValue = (document.querySelector('input[name="password"]') as HTMLInputElement).value;
-
-                const userLogin = {
-                    login: loginValue,
-                    password: passwordValue
-                };
-
-                httpClient.post<string>("/auth/signin", userLogin, new Headers({ 'Content-Type': 'application/json' }))
-                .then(response => {
-                    console.log('Ответ сервера:', response);
-                    navigate.go('/messenger')
-                })
-                .catch(error => {
-                    if (error.response === '{"reason":"User already in system"}') {
-                        navigate.go("/messenger");
-                    }
-                    console.error('Ошибка:', error);
-                }); 
-            },
-        },
-    });
-
-    const buttonCreateAccount = new Button({
-        className: 'className',
-        type: 'button',
-        buttonText: 'Create Account',
-        events: {
-            click: (event: MouseEvent) => {
-                console.log(event);
-                navigate.go('/sign-up')
-            },
-        },
-    });
-
-    const loginPage = new Login({
-        title: 'Login',
-        action: '/login',
-        loginField: fieldLogin,
-        passwordField: fieldPassword,
-        submitButton: buttonSubmit,
-        createAccountButton: buttonCreateAccount
-    });
-
-    return loginPage;
+    return layout;
 }
 
-export function MakeProfile(navigate: Router) : Block {
+export function MakeProfile(navigate: Router, currentUserID: number) : Block {
+
+    console.log("userID", currentUserID);
+
+    if (currentUserID === 0) {
+        navigate.go('/');
+    }
 
     const firstName = new FieldLabel({
         className: 'form-group',
@@ -245,146 +194,7 @@ export function MakeProfile(navigate: Router) : Block {
 
 export function MakeRegister(navigate: Router) : Block {
 
-    const firstName = new FieldLabel({
-        className: 'form-group',
-        type: 'text',
-        labelFor: 'first_name',
-        labelText: 'First Name:',
-        labelID: 'first_name',
-        name: 'first_name',
-        placeholderText: 'Enter your first name',
-        required: 'required'
-    });
-
-    const secondName = new FieldLabel({
-        className: 'form-group',
-        type: 'text',
-        labelFor: 'second_name',
-        labelText: 'Second Name:',
-        labelID: 'second_name',
-        name: 'second_name',
-        placeholderText: 'Enter your second name',
-        required: 'required'
-    });
-
-    const displayName = new FieldLabel({
-        className: 'form-group',
-        type: 'text',
-        labelFor: 'display_name',
-        labelText: 'Display Name:',
-        labelID: 'display_name',
-        name: 'display_name',
-        placeholderText: 'Enter your display name',
-        required: 'required'
-    });
-
-    const login = new FieldLabel({
-        className: 'form-group',
-        type: 'text',
-        labelFor: 'login',
-        labelText: 'Login:',
-        labelID: 'login',
-        name: 'login',
-        placeholderText: 'Enter your login',
-        required: 'required'
-    });
-
-    const password = new FieldLabel({
-        className: 'form-group',
-        type: 'password',
-        labelFor: 'password',
-        labelText: 'Password:',
-        labelID: 'password',
-        name: 'password',
-        placeholderText: 'Enter your password',
-        required: 'required'
-    });
-
-    const email = new FieldLabel({
-        className: 'form-group',
-        type: 'email',
-        labelFor: 'email',
-        labelText: 'Email:',
-        labelID: 'email',
-        name: 'email',
-        placeholderText: 'Enter your email',
-        required: 'required'
-    })
-
-    const phone = new FieldLabel({
-        className: 'form-group',
-        type: 'text',
-        labelFor: 'phone',
-        labelText: 'Phone:',
-        labelID: 'phone',
-        name: 'phone',
-        placeholderText: 'Enter your phone',
-        required: 'required'
-    })
-
-    const phoneTwo = new FieldLabel({
-        className: 'form-group',
-        type: 'text',
-        labelFor: 'phone',
-        labelText: 'Phone:',
-        labelID: 'phone',
-        name: 'phone',
-        placeholderText: 'Enter your phone',
-        required: 'required'
-    })
-
-    const buttonSubmit = new Button({
-        className: 'buttons',
-        type: 'submit',
-        buttonText: 'Enter',
-        events: {
-            click: (event: MouseEvent) => {
-                console.log(event);
- 
-                // Получаем значения логина и пароля
-                const firstName = (document.querySelector('input[name="first_name"]') as HTMLInputElement).value;
-                const secondName = (document.querySelector('input[name="second_name"]') as HTMLInputElement).value;
-                //const displayName = (document.querySelector('input[name="display_name"]') as HTMLInputElement).value;
-                const login = (document.querySelector('input[name="login"]') as HTMLInputElement).value;
-                const password = (document.querySelector('input[name="password"]') as HTMLInputElement).value;
-                const email = (document.querySelector('input[name="email"]') as HTMLInputElement).value;
-                const phone = (document.querySelector('input[name="phone"]') as HTMLInputElement).value;
-
-                const body = {
-                    first_name: firstName,
-                    second_name: secondName,
-                    login: login,
-                    email: email,
-                    password: password,
-                    phone: phone
-                };
-
-                httpClient.post<string>("/signup", body)
-                    .then(response => {
-                        console.log('Ответ сервера:', response);
-                        navigate.go('/messenger')
-                    })
-                    .catch(error => {
-                        console.error('Ошибка:', error);
-                    });
-
-            }
-        }
-    });
-
-    const profilePage = new Register({
-        title: 'Register',
-        action: '/register',
-        firstName: firstName,
-        secondName: secondName,
-        displayName: displayName,
-        login: login,
-        password: password,
-        email: email,
-        phone: phone,
-        phoneTwo: phoneTwo,
-        saveButton: buttonSubmit,
-    });
+    const profilePage = CreateRegister(navigate, httpClient)
 
     return profilePage;
 }
@@ -421,6 +231,10 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
 
     console.log("userID", userID);
 
+    if (userID === 0) {
+        navigate.go('/');
+    }
+
     const titleChart = new FieldLabel({
         className: 'form-group-chart',
         type: 'text',
@@ -441,7 +255,6 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                 event.preventDefault(); // Останавливаем стандартное поведение отправки формы
                 const titleChart = (document.querySelector('input[name="title_chart"]') as HTMLInputElement).value;
                 console.log("Save chart:", titleChart);
-
                 const body = {
                     title: titleChart
                 }
@@ -456,12 +269,12 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                 }).finally(()=>{
                     (document.querySelector('input[name="title_chart"]') as HTMLInputElement).value = "";
                     fetchChats(httpClient)
-                    .then(chartsHTML => {
-                        // Вставляем HTML в DOM
-                        (document.querySelector('.chat-list ul') as HTMLInputElement).innerHTML = chartsHTML
-                    }).finally(()=>{
-                        addEventChartListeners()
-                    })
+                        .then(chartsHTML => {
+                            // Вставляем HTML в DOM
+                            (document.querySelector('.chat-list ul') as HTMLInputElement).innerHTML = chartsHTML
+                        }).finally(()=>{
+                            addEventSelectChat(httpClient, userID)
+                        })
                 });
             }
         }
@@ -474,16 +287,14 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
         events: {
             click: (event: MouseEvent) => {
                 event.preventDefault(); // Останавливаем стандартное поведение отправки формы
-                navigate.go('/');
-
-                // httpClient.post<string>("/auth/logout")
-                // .then(response => {
-                //     console.log('Ответ сервера:', response);
-                //     navigate.go('/');
-                // })
-                // .catch(error => {
-                //     console.error('Ошибка:', error);
-                // });
+                httpClient.post<string>("/auth/logout")
+                .then(response => {
+                    console.log('Ответ сервера:', response);
+                    navigate.go('/');
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
             }
         }
     });
@@ -492,14 +303,64 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
         inputTitleChart: titleChart,
         saveChat: buttonSaveChart
     });
-    
+
+    const userIDtoChart = new FieldLabel({
+        className: 'form-group-chart',
+        type: 'text',
+        labelFor: 'user_id_for_chart',
+        labelText: 'User ID:',
+        labelID: 'user_id_for_chart',
+        name: 'user_id_for_chart',
+        placeholderText: 'Enter user ID',
+        required: 'required'
+    });
+
+    const buttonAddUserChat = new Button({
+        className: 'form-group-chart',
+        type: 'submit',
+        buttonText: 'Add User',
+        events: {
+            click: (event: MouseEvent) => {
+                event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+                const chatId = getActiveListItemId();
+                if (chatId === null) 
+                {
+                    console.log("Необходимо выбрать чат");
+                    return
+                }
+                const userID = (document.querySelector('input[name="user_id_for_chart"]') as HTMLInputElement).value;
+                const data = {
+                    "users": [
+                        userID
+                    ],
+                    "chatId": chatId
+                }
+                httpClient.put<string>("/chats/users", data)
+                .then(response => {
+                    console.log('Ответ сервера:', response);
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        }
+    });
+
+    const addUserInChat = new AddUserInChat({
+        inputUserID: userIDtoChart,
+        saveUser: buttonAddUserChat 
+    });
+
     const chartList = new ChatList({
         title: "ChatList",
         className: 'chat-list',
         charts: "",
         chartControl: chartControl,
-        buttonLogout: buttonLogout 
-    }, httpClient)
+        buttonLogout: buttonLogout,
+        addUserInChat: addUserInChat,
+    }, httpClient, userID)
+
+    let myWebSocketCurrent : WebSocket | null = null;  //MyWebSocketClient | null = null;
 
     const chartMessages = new ChartMessages({
         title: "Chat Messages",
@@ -521,21 +382,73 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                     console.log(event);
                     (async () => {
                         const chatId = getActiveListItemId();
- 
+
                         const newMessage = (document.querySelector('input[name="message"]') as HTMLInputElement).value;
-      
+                        console.log(`chatId: ${chatId}, currentChatId: ${currentChatId}`);
+
                         if (chatId != null) {
-                            if (currentChatId != chatId) {
+                            if (currentChatId == chatId) {
+                                if (myWebSocketCurrent === null) {
+                                    const token = await getChartToken(httpClient, chatId);
+                                    myWebSocketCurrent = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`);
+                                    myWebSocketCurrent.addEventListener('open', () => {
+                                        console.log('Соединение установлено (прежний чат)');
+                                        myWebSocketCurrent?.send(JSON.stringify({
+                                            content: newMessage,
+                                            type: 'message',
+                                        }));
+                                        // Пингуем раз в 20–30 секунд для поддержания соединения
+                                        setInterval(() => {
+                                            myWebSocketCurrent?.send(JSON.stringify({ type: "ping" }));
+                                        }, 25000);
+                                    }); 
+                                    myWebSocketCurrent.addEventListener('message', event => {
+                                        const data = JSON.parse(event.data);
+                                        console.log('Получены данные (в прежнем чате)', event.data);
+                                        if (Array.isArray(data)) {
+                                            data.forEach((message)=>{
+                                                addMessage(message.content, Number(message.user_id) === userID);
+                                            });
+                                        }
+                                    });
+                                    myWebSocketCurrent.addEventListener('error', event => {
+                                        console.log('Ошибка', event);
+                                    });
+                                } else {
+                                    myWebSocketCurrent?.send(JSON.stringify({
+                                        content: newMessage,
+                                        type: 'message',
+                                    }));
+                                }
+                            } else { // если сменили чат
+                                currentChatId = chatId;
+                                myWebSocketCurrent?.close();
                                 const token = await getChartToken(httpClient, chatId);
-                                const urlWS = `wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`;
-                                console.log("urlWS", urlWS);
-                                myWebSocketClient = new MyWebSocketClient(urlWS);
-                                myWebSocketClient.connect();
+                                myWebSocketCurrent = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`);
+                                myWebSocketCurrent.addEventListener('open', () => {
+                                    console.log('Соединение установлено (смена чата)');
+                                    myWebSocketCurrent?.send(JSON.stringify({
+                                        content: newMessage,
+                                        type: 'message',
+                                    }));
+                                    // Пингуем раз в 20–30 секунд для поддержания соединения
+                                    setInterval(() => {
+                                        myWebSocketCurrent?.send(JSON.stringify({ type: "ping" }));
+                                    }, 25000);
+                                }); 
+                                myWebSocketCurrent.addEventListener('message', event => {
+                                    const message = JSON.parse(event.data);
+                                    console.log('Получены данные (сменили чат)', event.data);
+                                    if (message.type === 'message' ) {
+                                       addMessage(message.content, Number(message.user_id) === userID);
+                                    }
+                                });
+                                myWebSocketCurrent.addEventListener('error', event => {
+                                    console.log('Ошибка', event);
+                                });
                             } 
-                            addMessage(newMessage, true);
-                            myWebSocketClient?.send(newMessage)    
                         } else {
-                            console.log('Select chart!');
+                            console.log('No sending. Select chart!');
                         }
                     })();
                 },

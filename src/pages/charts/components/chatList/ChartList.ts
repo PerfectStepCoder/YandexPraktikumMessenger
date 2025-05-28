@@ -1,7 +1,8 @@
-import { Block }  from "../../../../services/Component";
+import { Block }  from "../../../../common/Component";
 import template from "./template";
-import HTTPClient from '../../../../utils/sender'
-import { clearMessage } from "../../../../utils/chartHelpers";
+import HTTPClient from '../../../../services/sender'
+import { addMessage, clearMessage, fetchAllMessages, fetchAllOldMessages, getChartToken, getUnreadCount,  } from "../../../../services/chartHelpers";
+import { getNewConnectSocket } from "../../../../services/webSocket";
 //import { MyWebSocketClient } from "../../../../utils/webSocket";
 
 interface ChartListProps extends Record<string, unknown> {
@@ -43,29 +44,73 @@ export async function fetchMessagesChart(httpClient: HTTPClient, chartId: number
   }
 }
 
-export function addEventChartListeners() {
+export function addEventSelectChat(httpClient: HTTPClient, userID: number) {
+
   const listItems = document.querySelectorAll('.chat-list li');
-  console.log('addEventListeners', listItems);
+  console.log('addEventSelectChat', listItems, 'userID', userID);
   
   listItems.forEach(li => {
       li.addEventListener('click', () => {
-        console.log('Click chart!');
+          console.log('Click chart!');
+          
           // Убираем класс `active` у всех элементов
           listItems.forEach(item => item.classList.remove('active'));
           // Добавляем класс `active` к текущему элементу
           li.classList.add('active');
-          console.log(`Selected chat ID: ${li.getAttribute('data-id')}`);
+          const selectedCharID = li.getAttribute('data-id')
+          console.log(`Selected chat ID: ${selectedCharID}`);
           clearMessage();
+          let countNewMessages = 0;
+          const selectedCharIDnum: number = Number(selectedCharID);
+          getUnreadCount(httpClient, selectedCharIDnum).then(
+              countNewMessagesData => countNewMessages = countNewMessagesData  //console.log(countNewMessagesData)
+          ).catch(error => {
+            console.error('Ошибка при получение количества новых сообщений в чате:', error);
+          }).finally( () => {
+              //this.emitEvent(Block.EVENTS.EVENT_FLOW_UPDATE);
+              console.log(`New messages: ${countNewMessages}`);
+              if (countNewMessages > 0) {
+                  // getNewConnectSocket(httpClient, userID, selectedCharIDnum).then((sockerReady) => {
+                  //   sockerReady.connect()
+                  //   fetchAllMessages(countNewMessages, sockerReady)
+                  //     .then((messages) => {
+                  //       console.log("Все сообщения:", messages);
+                  //     })
+                  //     .catch((err) => {
+                  //       console.error("Ошибка получения всех сообщений в чате:", err);
+                  //     });
+                  //   sockerReady.close();
+                  // }).catch((err) => {
+                  //   console.log(`No connect to socket: ${err}`)
+                  // })
+              } else {
+                //
+              }
+              fetchAllOldMessages(httpClient, userID, selectedCharIDnum)
+                .then((messages) => {
+                  console.log("Все сообщения:", messages);
+                  messages.forEach((message)=> {
+                    addMessage(message.content, Number(message.user_id) === userID);
+                  })
+                })
+                .catch((err) => {
+                  console.error("Ошибка получения всех сообщений в чате:", err);
+                }).finally(() => {
+                  //
+                });
+          });
       });
   });
 }
 
 export default class ChartList extends Block<ChartListProps> {
     private httpClient: HTTPClient;
+    public userID: number
 
-    constructor(props: ChartListProps, httpClient: HTTPClient) {
+    constructor(props: ChartListProps, httpClient: HTTPClient, userID: number) {
       super("div", props);
       this.httpClient = httpClient;
+      this.userID = userID
       //this.myWebSocketClient = myWebSocketClient;
       this.bindEvent(Block.EVENTS.EVENT_FLOW_CDM, this.initCharts.bind(this));
       this.bindEvent(Block.EVENTS.EVENT_FLOW_UPDATE, this.addEventListeners.bind(this));
@@ -78,7 +123,7 @@ export default class ChartList extends Block<ChartListProps> {
 
     // Метод для добавления обработчиков событий
     addEventListeners() {
-      addEventChartListeners();
+      addEventSelectChat(this.httpClient, this.userID);
     }
 
     initCharts() {
@@ -94,3 +139,5 @@ export default class ChartList extends Block<ChartListProps> {
       });
     }
 }
+
+

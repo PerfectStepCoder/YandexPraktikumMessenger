@@ -1,4 +1,4 @@
-import { Block } from "../../services/Component";
+import { Block } from "../../common/Component";
 import template from "./template";
 import "./Login.css"
 //import { validationRules } from "../../utils/validation"
@@ -12,7 +12,7 @@ export default class Login extends Block<LoginProps> {
     static mainForm: HTMLElement
 
     constructor(props: LoginProps) {
-      super("login", props);
+      super("div", props);
     }
   
     render(): DocumentFragment {

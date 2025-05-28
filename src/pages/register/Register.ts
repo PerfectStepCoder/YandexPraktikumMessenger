@@ -1,4 +1,4 @@
-import { FormBlock, FormProps } from "../../services/FormBlock";
+import { FormBlock, FormProps } from "../../common/FormBlock";
 import { validationRules } from "../../utils/validation"
 import template from "./template";
 import "./Register.css"

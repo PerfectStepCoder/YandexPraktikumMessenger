@@ -1,12 +1,12 @@
-import { Block }  from "../../../../services/Component";
+import { Block }  from "../../../../common/Component";
 import template from "./template";
 
-interface ChartProps extends Record<string, unknown> {
+interface ChartMessagesProps extends Record<string, unknown> {
     count? : number // буду использовать в будущем
 }
 
-export default class Chart extends Block<ChartProps> {
-    constructor(props: ChartProps) {
+export default class ChartMessages extends Block<ChartMessagesProps> {
+    constructor(props: ChartMessagesProps) {
       super("div", props);
     }
   

@@ -14,10 +14,10 @@ const template = `
     </style>
     <form id="mainForm" action="{{ action }}" method="POST">
         <fieldset>
-            <legend>Add new chat:</legend>
+            <legend>Add new user:</legend>
             
-            {{ inputTitleChart }}
-            {{ saveChat }}
+            {{ inputUserID }}
+            {{ saveUser }}
 
         </fieldset>
     </form>

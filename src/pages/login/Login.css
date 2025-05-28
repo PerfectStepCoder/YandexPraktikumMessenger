@@ -16,22 +16,8 @@
     --form-width: 300px;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: var(--background-color);
-    font-family: Arial, sans-serif;
-}
-
 .login-form {
+    margin: auto;
     background-color: var(--form-background);
     padding: var(--padding-large);
     border-radius: var(--border-radius-container);
@@ -55,16 +41,29 @@ body {
 
 .login-form .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    height: 20px;
+    padding: 0px;
 }
 
 .login-form button {
-    padding: var(--padding-small) var(--padding-medium);
+    padding: 0px;
+    margin-right: 10px;
+    margin-top: 1px;
+    width: 100px;
+    height: 50px;
+}
+
+.login-form .login-btn {
+    padding: 0px;
+    margin: 0px;
     border: none;
     background-color: var(--button-primary);
     color: white;
     border-radius: var(--border-radius);
     cursor: pointer;
+    width: 50px;
+    height: 20px;
 }
 
 .login-form button:hover {

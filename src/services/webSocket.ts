@@ -1,7 +1,15 @@
-export type WebSocketMessage = string | ArrayBuffer | Blob | ArrayBufferView;
+import { getChartToken } from "./chartHelpers";
+import HTTPClient from "./sender";
+
+
+export interface WebSocketMessage {
+    content: string,
+    type: string
+};
 
 export class WebSocketClientBase {
-    private socket: WebSocket | null = null;
+
+    protected socket: WebSocket | null = null;
     private url: string;
 
     constructor(url: string) {
@@ -39,8 +47,10 @@ export class WebSocketClientBase {
 
     // Отправка сообщения
     public send(message: WebSocketMessage): void {
+        console.log(JSON.stringify(message));
+        console.log(this.socket?.readyState);
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(message);
+            this.socket.send(JSON.stringify(message));
         } else {
             console.error('WebSocket is not connected.');
         }
@@ -78,24 +88,37 @@ export class WebSocketClientBase {
 }
 
 export class MyWebSocketClient extends WebSocketClientBase {
+
     constructor(url: string, ) {
         super(url);
     }
 
-    protected onOpen(): void {
-        console.log('Connection opened!');
-        this.send('Hello, server!');
+    public onOpen(): void {
+        console.log('Connection opened! onOpen onOpen');
+        //this.send('Hello, server!');
+        this.socket?.readyState == WebSocket.OPEN;
+        this.send(JSON.stringify({ type: "ping" }));
     }
 
-    protected onMessage(data: WebSocketMessage): void {
+    public onMessage(data: WebSocketMessage): void {
         console.log('Received message:', data);
     }
 
-    protected onError(event: Event): void {
+    public onError(event: Event): void {
         console.error('WebSocket error occurred:', event);
     }
 
-    protected onClose(event: CloseEvent): void {
+    public onClose(event: CloseEvent): void {
         console.log('Connection closed:', event.reason);
     }
+}
+
+
+export async function getNewConnectSocket(httpClient: HTTPClient, userID: number, chatId: number): Promise<MyWebSocketClient> {
+    const token = await getChartToken(httpClient, chatId);
+    console.log('token:', token);
+    const urlWS = `wss://ya-praktikum.tech/ws/chats/${userID}/${chatId}/${token}`;
+    console.log("urlWS", urlWS);
+    const myWebSocketClient = new MyWebSocketClient(urlWS);
+    return myWebSocketClient
 }

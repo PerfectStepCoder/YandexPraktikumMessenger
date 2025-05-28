@@ -1,9 +1,9 @@
 const template = `
-<div class="container">
+<div class="content">
     
     <!-- Список чатов -->
     {{ chartList }}
-
+    
     <!-- Лента переписки -->
     {{ chartMessages }}
 

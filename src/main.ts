@@ -1,14 +1,15 @@
-import { MakeLogin, MakeProfile, MakeRegister, MakeCharts } from './pages/Maker';
+import { MakeLogin, MakeProfile, MakeRegister, MakeCharts } from './pages/MainMaker';
 import Router from './router'
-import HTTPClient from './utils/sender'
-import { fetchUserID } from './utils/userHelpers';
+import HTTPClient from './services/sender'
+import { fetchUserID } from './services/userHelpers';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const httpClient = new HTTPClient(apiUrl);
 
-const router = new Router(".app");
-let currentUserID: number = 0;
+const router = new Router("#app");
+
+let currentUserID: number = -1;
 
 fetchUserID(httpClient)
     .then(userID => {
@@ -19,8 +20,8 @@ fetchUserID(httpClient)
     }).finally(()=>{
         console.log('Current UserID:', currentUserID);
         router
-        .use("/", MakeLogin(router))
-        .use("/settings", MakeProfile(router))
+        .use("/", MakeLogin(router, currentUserID))
+        .use("/settings", MakeProfile(router, currentUserID))
         .use("/sign-up", MakeRegister(router))
         .use("/messenger", MakeCharts(router, currentUserID))
         .start();

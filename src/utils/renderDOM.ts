@@ -1,4 +1,4 @@
-import { Block } from "../services/Component"; // Импорт базового класса Block, если он используется
+import { Block } from "../common/Component"; // Импорт базового класса Block, если он используется
 
 export function render(query: string, block: Block): HTMLElement | null {
   

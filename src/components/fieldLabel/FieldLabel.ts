@@ -1,4 +1,4 @@
-import { Block }  from "../../services/Component";
+import { Block }  from "../../common/Component";
 import template from "./template";
 
 interface FieldLabelProps extends Record<string, unknown> {

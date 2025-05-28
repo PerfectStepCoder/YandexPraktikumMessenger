@@ -20,6 +20,7 @@ interface ChildrenAndProps<TProps> {
 }
 
 export class Block<TProps extends Record<string, unknown> = {}> {
+
   static EVENTS: BlockEvents = {
     EVENT_INIT: "init",
     EVENT_FLOW_CDM: "flow:component-did-mount",
@@ -191,7 +192,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
   hide(): void {
     const content = this.getContent();
     if (content) {
-      content.style.display = "none";
+      content.style.display = "block";
     }
   }
 
@@ -220,9 +221,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
 
-    const fragment = this._createDocumentElement(
-      "template"
-    ) as HTMLTemplateElement;
+    const fragment = this._createDocumentElement("template") as HTMLTemplateElement;
 
     fragment.innerHTML = compile(template, propsAndStubs);
 

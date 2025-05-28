@@ -37,22 +37,20 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background-color: var(--background-color);
-}
-
-.app {
-    height: var(--container-height);
-    width: 1000px;
-}
-
-.container {
+.data-id {
     display: flex;
+    flex: 1;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    padding: 0px;
     height: var(--container-height);
     width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
+    /* max-width: 1000px; */
+    margin: auto;
 }
 
 .chat-list {
@@ -64,9 +62,9 @@ body {
     min-width: 300px;
 }
 
-
 .chat-list h2 {
     margin-bottom: var(--padding-large);
+    color:white;
 }
 
 .chat-list ul {
@@ -93,9 +91,10 @@ body {
     display: flex;
     flex-direction: column;
     background-color: var(--chat-area-bg);
-    padding: var(--chat-area-padding);
-    min-width: 700px;
-    height: 800px;
+    /* padding: var(--chat-area-padding); */
+    padding: 0px;
+    min-width: 900px;
+    height: 1000px;
 }
 
 .chat-messages {
@@ -110,6 +109,10 @@ body {
     background-color: var(--chat-message-bg);
     border-radius: var(--border-radius);
     box-shadow: 0 0 5px var(--chat-message-shadow);
+}
+
+input[name="message"] {
+    width: 700px;
 }
 
 .message.author {
@@ -127,7 +130,6 @@ body {
 }
 
 .message-input input {
-    width: 100%;
     padding: var(--padding-small);
     border: none;
     border-radius: var(--border-radius);
@@ -144,7 +146,7 @@ body {
 }
 
 .form-group-chart button {
-    margin-left: var(--padding-small);
+    /* margin: 0px; */
     padding: var(--padding-small) var(--padding-medium);
     background-color: var(--button-bg);
     color: var(--font-color-secondary);
@@ -159,4 +161,9 @@ body {
 
 .message-input button:hover {
     background-color: var(--button-hover-bg);
+}
+
+#mainForm {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

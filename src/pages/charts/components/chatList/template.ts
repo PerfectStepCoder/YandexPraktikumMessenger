@@ -9,6 +9,9 @@ const template = `
     {{ chartControl }}
 
     {{ buttonLogout }}
+
+    {{ addUserInChat }}
+     
 </div>
 `;
 
