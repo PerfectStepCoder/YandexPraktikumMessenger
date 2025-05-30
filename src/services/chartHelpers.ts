@@ -145,8 +145,13 @@ export async function fetchAllMessages(
     };
 
     socket.onMessage = (event: any) => {
-      const data = JSON.parse(event.data);
-
+      let data = {};
+      try {
+          data = JSON.parse(event.data);
+      } catch (err: unknown) {
+        console.log(`Error parsing: ${err}`);
+        return
+      }
       if (Array.isArray(data)) {
         allMessages.push(...data);
 
@@ -199,7 +204,15 @@ export async function fetchAllOldMessages(
     };
 
     socket.onmessage = (event: any) => {
-      const data = JSON.parse(event.data);
+
+      let data = {};
+      try {
+          data = JSON.parse(event.data);
+      } catch (err: unknown) {
+        console.log(`Error parsing: ${err}`);
+        return
+      }
+
       console.log("data", data);
 
       if (Array.isArray(data)) {

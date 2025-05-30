@@ -441,7 +441,13 @@ export function MakeCharts(navigate: Router, userID: number): Block {
                     }, 25000);
                   });
                   myWebSocketCurrent.addEventListener("message", (event) => {
-                    const data = JSON.parse(event.data);
+                    let data = {};
+                    try {
+                       const data = JSON.parse(event.data);
+                    } catch (err: unknown) {
+                      console.log(`Error parsing: ${err}`);
+                      return
+                    }
                     console.log("Получены данные (в прежнем чате)", event.data);
                     if (Array.isArray(data)) {
                       data.forEach((message) => {
@@ -485,7 +491,13 @@ export function MakeCharts(navigate: Router, userID: number): Block {
                   }, 25000);
                 });
                 myWebSocketCurrent.addEventListener("message", (event) => {
-                  const message = JSON.parse(event.data);
+                  let message = {'type': '', 'user_id': '', 'content': ''};
+                  try {
+                     message = JSON.parse(event.data);
+                  } catch (err: unknown) {
+                    console.log(`Error parsing: ${err}`);
+                    return
+                  }
                   console.log("Получены данные (сменили чат)", event.data);
                   if (message.type === "message") {
                     addMessage(
