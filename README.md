@@ -9,6 +9,9 @@
 ## TypeScript
 > ts-node script.ts
 
+# Ссылка на сайт
+https://ymessanger.netlify.app/
+
 # Перевод на TypeScript
 >npm install typescript @types/node --save-dev
 Create tsconfig.json
