@@ -24,7 +24,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 const httpClient = new HTTPClient(apiUrl);
 
-let myWebSocketClient: MyWebSocketClient | null = null;
+const myWebSocketClient: MyWebSocketClient | null = null;
 let currentChatId: number = -1
 
 export function MakeLogin(navigate: Router, currentUserID: number) : Block {
@@ -384,6 +384,10 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                         const chatId = getActiveListItemId();
 
                         const newMessage = (document.querySelector('input[name="message"]') as HTMLInputElement).value;
+                        if (newMessage === '') {
+                            console.log('Сообщение не должно быть пустой строкой');
+                            alert('Сообщение не должно быть пустой строкой');
+                        }
                         console.log(`chatId: ${chatId}, currentChatId: ${currentChatId}`);
 
                         if (chatId != null) {

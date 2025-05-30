@@ -17,10 +17,13 @@ https://ymessanger.netlify.app/
 Create tsconfig.json
 Add: env.d.ts
 
-Подключение линтера ESLint:
+# Подключение линтера ESLint:
 > npm install eslint eslint-plugin-vite @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev
 > npx eslint --init
 > npm run lint
+Автоматически пофиксит
+> npx eslint . --fix
+> npm run lint -- --fix
 
 Подключение Stylelint и запуск
 > npm install --save-dev stylelint stylelint-config-standard stylelint-scss
