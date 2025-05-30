@@ -5,13 +5,15 @@ const template = `
     <ul>
         {{ charts }}
     </ul>
-    
+
     {{ chartControl }}
 
     {{ buttonLogout }}
 
+    {{ buttonProfile }}
+
     {{ addUserInChat }}
-     
+
 </div>
 `;
 

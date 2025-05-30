@@ -4,20 +4,22 @@ const template = `
         fieldset {
             margin: 8px;
             border: 1px solid silver;
-            padding: 8px;    
+            padding: 8px;
             border-radius: 4px;
         }
         legend {
             padding: 2px;
-            font-size: 18px;    
+            font-size: 18px;
         }
     </style>
     <form id="mainForm" action="{{ action }}" method="POST">
         <fieldset>
-            <legend>Add new user:</legend>
-            
+            <legend>Add/Delete new user:</legend>
+
             {{ inputUserID }}
             {{ saveUser }}
+
+            {{ deleteUser }}
 
         </fieldset>
     </form>

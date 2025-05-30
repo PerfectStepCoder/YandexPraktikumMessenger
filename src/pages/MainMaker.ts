@@ -26,6 +26,7 @@ import {
 import { CreateLogin } from "./login";
 import CreateRegister from "./register/maker";
 import AddUserInChat from "./charts/components/addUserInChat";
+import { fetchUserProfile, uploadAvatar, UserProfile } from "../services/userHelpers";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -35,7 +36,8 @@ const myWebSocketClient: MyWebSocketClient | null = null;
 let currentChatId: number = -1;
 
 export function MakeLogin(navigate: Router, currentUserID: number): Block {
-  if (currentUserID !== 0) {
+
+  if (currentUserID !== -1) {
     navigate.go("/messenger");
   }
 
@@ -49,12 +51,15 @@ export function MakeLogin(navigate: Router, currentUserID: number): Block {
   return layout;
 }
 
-export function MakeProfile(navigate: Router, currentUserID: number): Block {
+export function MakeProfile(navigate: Router, currentUserID: number, userProfile: UserProfile): Block {
+
   console.log("userID", currentUserID);
 
-  if (currentUserID === 0) {
+  if (currentUserID === -1) {
     navigate.go("/");
   }
+
+  console.log('userProfile', userProfile);
 
   const firstName = new FieldLabel({
     className: "form-group",
@@ -63,7 +68,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "First Name:",
     labelID: "first_name",
     name: "first_name",
-    placeholderText: "Enter your first name",
+    placeholderText: userProfile.first_name,
     required: "required",
   });
 
@@ -74,7 +79,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "Second Name:",
     labelID: "second_name",
     name: "second_name",
-    placeholderText: "Enter your second name",
+    placeholderText: userProfile.second_name,
     required: "required",
   });
 
@@ -85,7 +90,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "Display Name:",
     labelID: "display_name",
     name: "display_name",
-    placeholderText: "Enter your display name",
+    placeholderText: userProfile.display_name,
     required: "required",
   });
 
@@ -96,7 +101,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "Login:",
     labelID: "login",
     name: "login",
-    placeholderText: "Enter your login",
+    placeholderText: userProfile.login,
     required: "required",
   });
 
@@ -107,7 +112,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "Email:",
     labelID: "email",
     name: "email",
-    placeholderText: "Enter your email",
+    placeholderText: userProfile.email,
     required: "required",
   });
 
@@ -118,29 +123,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "Phone:",
     labelID: "phone",
     name: "phone",
-    placeholderText: "Enter your phone",
-    required: "required",
-  });
-
-  const oldPassword = new FieldLabel({
-    className: "form-group",
-    type: "password",
-    labelFor: "oldPassword",
-    labelText: "Old password:",
-    labelID: "oldPassword",
-    name: "oldPassword",
-    placeholderText: "Enter your old password",
-    required: "required",
-  });
-
-  const newPassword = new FieldLabel({
-    className: "form-group",
-    type: "password",
-    labelFor: "New password",
-    labelText: "New password:",
-    labelID: "newPassword",
-    name: "newPassword",
-    placeholderText: "Enter your new password",
+    placeholderText: userProfile.phone,
     required: "required",
   });
 
@@ -151,7 +134,7 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     labelText: "Avatar:",
     labelID: "avatar",
     name: "avatar",
-    placeholderText: "",
+    placeholderText: userProfile.avatar,
     required: "", // not required
   });
 
@@ -162,18 +145,73 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     events: {
       click: (event: MouseEvent) => {
         console.log(event);
-        navigate.go("/messenger");
+        event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+                // Получаем значения логина и пароля
+        const firstName = (
+          document.querySelector('input[name="first_name"]') as HTMLInputElement
+        ).value;
+        const secondName = (
+          document.querySelector(
+            'input[name="second_name"]',
+          ) as HTMLInputElement
+        ).value;
+        //const displayName = (document.querySelector('input[name="display_name"]') as HTMLInputElement).value;
+        const login = (
+          document.querySelector('input[name="login"]') as HTMLInputElement
+        ).value;
+        const email = (
+          document.querySelector('input[name="email"]') as HTMLInputElement
+        ).value;
+        const phone = (
+          document.querySelector('input[name="phone"]') as HTMLInputElement
+        ).value;
+        const display_name = (
+          document.querySelector('input[name="display_name"]') as HTMLInputElement
+        ).value;
+
+        const avatar = (
+          document.querySelector('input[name="avatar"]') as HTMLInputElement
+        );
+
+        console.log('avatar', avatar);
+
+        const body = {
+          first_name: firstName ? firstName : userProfile.first_name,
+          second_name: secondName ? secondName: userProfile.second_name,
+          display_name: display_name ? display_name: userProfile.display_name,
+          login: login ? login : userProfile.login,
+          email: email ? email: userProfile.email,
+          phone: phone ? phone: userProfile.phone,
+        };
+
+        console.log('body', body);
+
+        uploadAvatar(avatar).then((data) => {
+          console.log('data', data);
+        });
+
+        httpClient
+          .put<string>("/user/profile", body)
+          .then((response) => {
+            console.log("Ответ сервера:", response);
+            alert('Profile saved');
+            navigate.go("/messenger");
+          })
+          .catch((error) => {
+            console.error("Ошибка:", error);
+          });
       },
     },
   });
 
-  const buttonReset = new Button({
+  const homeButton = new Button({
     className: "buttons",
-    type: "reset",
-    buttonText: "Reset",
+    type: "submit",
+    buttonText: "Home",
     events: {
       click: (event: MouseEvent) => {
         console.log(event);
+        navigate.go("/messenger");
       },
     },
   });
@@ -188,10 +226,11 @@ export function MakeProfile(navigate: Router, currentUserID: number): Block {
     email: email,
     phone: phone,
     avatar: avatar,
-    oldPassword: oldPassword,
-    newPassword: newPassword,
+    // oldPassword: oldPassword,
+    // newPassword: newPassword,
+    homeButton: homeButton,
     saveButton: buttonSubmit,
-    resetButton: buttonReset,
+    //resetButton: buttonReset,
   });
 
   return profilePage;
@@ -235,7 +274,7 @@ export function MakeErrors(errorCode: HttpStatusCode): Block {
 export function MakeCharts(navigate: Router, userID: number): Block {
   console.log("userID", userID);
 
-  if (userID === 0) {
+  if (userID === -1) {
     navigate.go("/");
   }
 
@@ -366,9 +405,55 @@ export function MakeCharts(navigate: Router, userID: number): Block {
     },
   });
 
+  const buttonDeleteUserChat = new Button({
+    className: "form-group-chart",
+    type: "submit",
+    buttonText: "Delete User",
+    events: {
+      click: (event: MouseEvent) => {
+        event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+        const chatId = getActiveListItemId();
+        if (chatId === null) {
+          console.log("Необходимо выбрать чат");
+          return;
+        }
+        const userID = (
+          document.querySelector(
+            'input[name="user_id_for_chart"]',
+          ) as HTMLInputElement
+        ).value;
+        const data = {
+          users: [userID],
+          chatId: chatId,
+        };
+        httpClient
+          .delete<string>("/chats/users", data)
+          .then((response) => {
+            console.log("Ответ сервера:", response);
+          })
+          .catch((error) => {
+            console.error("Ошибка:", error);
+          });
+      },
+    },
+  });
+
   const addUserInChat = new AddUserInChat({
     inputUserID: userIDtoChart,
     saveUser: buttonAddUserChat,
+    deleteUser: buttonDeleteUserChat
+  });
+
+  const buttonProfile = new Button({
+    className: "form-group-chart",
+    type: "submit",
+    buttonText: "Profile",
+    events: {
+      click: (event: MouseEvent) => {
+        event.preventDefault(); // Останавливаем стандартное поведение отправки формы
+        navigate.go('/settings');
+      },
+    },
   });
 
   const chartList = new ChatList(
@@ -379,6 +464,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
       chartControl: chartControl,
       buttonLogout: buttonLogout,
       addUserInChat: addUserInChat,
+      buttonProfile: buttonProfile
     },
     httpClient,
     userID,

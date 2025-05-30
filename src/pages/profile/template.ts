@@ -16,8 +16,8 @@ const template = `
         {{ oldPassword }}
         {{ newPassword }}
         <!-- Кнопки -->
+        {{ homeButton }}
         {{ saveButton }}
-        {{ resetButton }}
     </form>
 </div>
 
