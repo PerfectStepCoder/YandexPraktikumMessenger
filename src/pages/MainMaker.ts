@@ -323,7 +323,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
             click: (event: MouseEvent) => {
                 event.preventDefault(); // Останавливаем стандартное поведение отправки формы
                 const chatId = getActiveListItemId();
-                if (chatId === null) 
+                if (chatId === null)
                 {
                     console.log("Необходимо выбрать чат");
                     return
@@ -348,7 +348,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
 
     const addUserInChat = new AddUserInChat({
         inputUserID: userIDtoChart,
-        saveUser: buttonAddUserChat 
+        saveUser: buttonAddUserChat
     });
 
     const chartList = new ChatList({
@@ -371,7 +371,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
             name: 'message',
             placeholderText: 'Type your message...',
             required: ''
-        }), 
+        }),
         sendMessage: new Button({
             className: 'className',
             type: 'submit',
@@ -405,7 +405,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                                         setInterval(() => {
                                             myWebSocketCurrent?.send(JSON.stringify({ type: "ping" }));
                                         }, 25000);
-                                    }); 
+                                    });
                                     myWebSocketCurrent.addEventListener('message', event => {
                                         const data = JSON.parse(event.data);
                                         console.log('Получены данные (в прежнем чате)', event.data);
@@ -439,7 +439,7 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                                     setInterval(() => {
                                         myWebSocketCurrent?.send(JSON.stringify({ type: "ping" }));
                                     }, 25000);
-                                }); 
+                                });
                                 myWebSocketCurrent.addEventListener('message', event => {
                                     const message = JSON.parse(event.data);
                                     console.log('Получены данные (сменили чат)', event.data);
@@ -450,14 +450,14 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
                                 myWebSocketCurrent.addEventListener('error', event => {
                                     console.log('Ошибка', event);
                                 });
-                            } 
+                            }
                         } else {
                             console.log('No sending. Select chart!');
                         }
                     })();
                 },
             }
-        }) 
+        })
     })
 
     const output = new Charts({
@@ -468,4 +468,3 @@ export function MakeCharts(navigate: Router, userID: number) : Block {
 
     return output;
 }
-
