@@ -23,4 +23,4 @@ const template = `
 
 `;
 
-export default template
+export default template;

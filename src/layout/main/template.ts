@@ -19,4 +19,4 @@ const template = `
   </footer>
 `;
 
-export default template
+export default template;

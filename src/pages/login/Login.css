@@ -1,79 +1,79 @@
 :root {
-    --background-color: #f4f4f9;
-    --form-background: #fff;
-    --form-shadow: rgb(0 0 0 / 10%);
-    --font-color-primary: #333;
-    --border-color: #ccc;
-    --button-primary: #5cb85c;
-    --button-primary-hover: #4cae4c;
-    --button-secondary: #0275d8;
-    --button-secondary-hover: #025aa5;
-    --padding-small: 10px;
-    --padding-medium: 20px;
-    --padding-large: 40px;
-    --border-radius: 5px;
-    --border-radius-container: 10px;
-    --form-width: 300px;
+  --background-color: #f4f4f9;
+  --form-background: #fff;
+  --form-shadow: rgb(0 0 0 / 10%);
+  --font-color-primary: #333;
+  --border-color: #ccc;
+  --button-primary: #5cb85c;
+  --button-primary-hover: #4cae4c;
+  --button-secondary: #0275d8;
+  --button-secondary-hover: #025aa5;
+  --padding-small: 10px;
+  --padding-medium: 20px;
+  --padding-large: 40px;
+  --border-radius: 5px;
+  --border-radius-container: 10px;
+  --form-width: 300px;
 }
 
 .login-form {
-    margin: auto;
-    background-color: var(--form-background);
-    padding: var(--padding-large);
-    border-radius: var(--border-radius-container);
-    box-shadow: 0 0 20px var(--form-shadow);
-    width: var(--form-width);
+  margin: auto;
+  background-color: var(--form-background);
+  padding: var(--padding-large);
+  border-radius: var(--border-radius-container);
+  box-shadow: 0 0 20px var(--form-shadow);
+  width: var(--form-width);
 }
 
 .login-form h2 {
-    text-align: center;
-    margin-bottom: var(--padding-medium);
-    color: var(--font-color-primary);
+  text-align: center;
+  margin-bottom: var(--padding-medium);
+  color: var(--font-color-primary);
 }
 
 .login-form input {
-    width: 100%;
-    padding: var(--padding-small);
-    margin: var(--padding-small) 0;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+  width: 100%;
+  padding: var(--padding-small);
+  margin: var(--padding-small) 0;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
 }
 
 .login-form .buttons {
-    display: flex;
-    justify-content: center;
-    height: 20px;
-    padding: 0px;
+  display: flex;
+  justify-content: center;
+  height: 20px;
+  padding: 0px;
 }
 
 .login-form button {
-    padding: 0px;
-    margin-right: 10px;
-    margin-top: 1px;
-    width: 100px;
-    height: 50px;
+  padding: 0px;
+  margin-right: 10px;
+  margin-top: 1px;
+  width: 100px;
+  height: 50px;
 }
 
 .login-form .login-btn {
-    padding: 0px;
-    margin: 0px;
-    border: none;
-    background-color: var(--button-primary);
-    color: white;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    width: 50px;
-    height: 20px;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background-color: var(--button-primary);
+  color: white;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  width: 50px;
+  height: 20px;
 }
 
 .login-form button:hover {
-    background-color: var(--button-primary-hover);
+  background-color: var(--button-primary-hover);
 }
 
 .login-form .create-account {
-    background-color: var(--button-secondary);
+  background-color: var(--button-secondary);
 }
 
 .login-form .create-account:hover {
-    background-color: var(--button-secondary-hover);
+  background-color: var(--button-secondary-hover);
 }

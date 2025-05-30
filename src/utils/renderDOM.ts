@@ -1,16 +1,15 @@
 import { Block } from "../common/Component"; // Импорт базового класса Block, если он используется
 
 export function render(query: string, block: Block): HTMLElement | null {
-  
   const root = document.querySelector(query) as HTMLElement | null;
 
   if (!root) {
     throw new Error(`Элемент с селектором "${query}" не найден.`);
   } else {
-    root.innerHTML = ""
+    root.innerHTML = "";
   }
 
-  const content = block.getContent();  // getContent возвращает HTMLElement
+  const content = block.getContent(); // getContent возвращает HTMLElement
   if (!content) {
     throw new Error("Метод getContent вернул недопустимое значение.");
   }

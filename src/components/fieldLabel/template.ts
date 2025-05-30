@@ -1,4 +1,3 @@
-
 const template = `
 <div class="{{ className }}">
     <label for="{{ labelFor }}">{{ labelText }}</label>
@@ -6,4 +5,4 @@ const template = `
 </div>
 `;
 
-export default template
+export default template;

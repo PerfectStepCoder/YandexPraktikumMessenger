@@ -1,86 +1,89 @@
-import HTTPClient from './sender'
-import { MyWebSocketClient } from './webSocket';
+import HTTPClient from "./sender";
+import { MyWebSocketClient } from "./webSocket";
 
 export function getActiveListItemId(): number | null {
-    // Находим активный элемент
-    const activeElement = document.querySelector('ul li.active');
+  // Находим активный элемент
+  const activeElement = document.querySelector("ul li.active");
 
-    // Если активный элемент найден, извлекаем его data-id
-    if (activeElement) {
-        const id = activeElement.getAttribute('data-id');
-        return id ? parseInt(id, 10) : null; // Преобразуем строку в число
-    }
+  // Если активный элемент найден, извлекаем его data-id
+  if (activeElement) {
+    const id = activeElement.getAttribute("data-id");
+    return id ? parseInt(id, 10) : null; // Преобразуем строку в число
+  }
 
-    // Если активный элемент не найден, возвращаем null
-    return null;
+  // Если активный элемент не найден, возвращаем null
+  return null;
 }
 
-interface ResponseToken{
-    token: string
+interface ResponseToken {
+  token: string;
 }
 
 export async function fetchChartToken(httpClient: HTTPClient, chartID: number) {
-    try {
-        const response = await httpClient.post<ResponseToken>(`/chats/token/${chartID}`);
-        console.log('Ответ сервера token:', response);
-        return response.token; // Возвращаем token
-    } catch (error) {
-        console.error('Ошибка token:', error);
-        throw error; // Пробрасываем ошибку
-    }
+  try {
+    const response = await httpClient.post<ResponseToken>(
+      `/chats/token/${chartID}`,
+    );
+    console.log("Ответ сервера token:", response);
+    return response.token; // Возвращаем token
+  } catch (error) {
+    console.error("Ошибка token:", error);
+    throw error; // Пробрасываем ошибку
   }
+}
 
-export async function getChartToken(httpClient: HTTPClient, chartID: number) { //: string | null
-    try {
-        const token = await fetchChartToken(httpClient, chartID);
-        return token; // Возвращаем token
-    } catch (error) {
-        console.error('Ошибка при загрузке token:', error);
-        return null; // Возвращаем null в случае ошибки
-    }
+export async function getChartToken(httpClient: HTTPClient, chartID: number) {
+  //: string | null
+  try {
+    const token = await fetchChartToken(httpClient, chartID);
+    return token; // Возвращаем token
+  } catch (error) {
+    console.error("Ошибка при загрузке token:", error);
+    return null; // Возвращаем null в случае ошибки
+  }
 }
 
 export function addMessage(text: string, isAuthor: boolean = false): void {
-    // Находим контейнер для сообщений
-    const chatMessages = document.querySelector('.chat-messages');
+  // Находим контейнер для сообщений
+  const chatMessages = document.querySelector(".chat-messages");
 
-    if (!chatMessages) {
-        console.error('Chat messages container not found!');
-        return;
-    }
+  if (!chatMessages) {
+    console.error("Chat messages container not found!");
+    return;
+  }
 
-    // Создаем новый элемент сообщения
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message');
+  // Создаем новый элемент сообщения
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
 
-    // Если сообщение от автора, добавляем класс `author`
-    if (isAuthor) {
-        messageElement.classList.add('author');
-    }
+  // Если сообщение от автора, добавляем класс `author`
+  if (isAuthor) {
+    messageElement.classList.add("author");
+  }
 
-    // Устанавливаем текст сообщения
-    messageElement.textContent = text;
+  // Устанавливаем текст сообщения
+  messageElement.textContent = text;
 
-    // Добавляем сообщение в контейнер
-    chatMessages.appendChild(messageElement);
+  // Добавляем сообщение в контейнер
+  chatMessages.appendChild(messageElement);
 
-    // Прокручиваем контейнер вниз, чтобы показать новое сообщение
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  // Прокручиваем контейнер вниз, чтобы показать новое сообщение
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 export function clearMessage(): void {
-    // Находим контейнер для сообщений
-    const chatMessages = document.querySelector('.chat-messages');
-    
-    if (chatMessages) {
-        chatMessages.innerHTML = '';
-    }
+  // Находим контейнер для сообщений
+  const chatMessages = document.querySelector(".chat-messages");
+
+  if (chatMessages) {
+    chatMessages.innerHTML = "";
+  }
 }
 
 function getCookie(key: string): string | null {
-  const cookies = document.cookie.split('; ');
+  const cookies = document.cookie.split("; ");
   for (const cookie of cookies) {
-    const [k, v] = cookie.split('=');
+    const [k, v] = cookie.split("=");
     if (k === key) {
       return decodeURIComponent(v);
     }
@@ -88,22 +91,25 @@ function getCookie(key: string): string | null {
   return null;
 }
 
-export async function getUnreadCount(httpClient: HTTPClient, chartID: number): Promise<number> {
-    
-    const auth_token = getCookie('auth_token');
-    const cookie = `auth_token=${auth_token}`;
-    
-    const res = await fetch(`${httpClient.getBaseUrl()}/chats/new/${chartID}`, {
-        headers: {
-        "cookie": cookie,
-        },
-        credentials: "include",
-    });
+export async function getUnreadCount(
+  httpClient: HTTPClient,
+  chartID: number,
+): Promise<number> {
+  const auth_token = getCookie("auth_token");
+  const cookie = `auth_token=${auth_token}`;
 
-    if (!res.ok) throw new Error("Ошибка получения количества непрочитанных сообщений");
+  const res = await fetch(`${httpClient.getBaseUrl()}/chats/new/${chartID}`, {
+    headers: {
+      cookie: cookie,
+    },
+    credentials: "include",
+  });
 
-    const data = await res.json();
-    return data.unread_count;
+  if (!res.ok)
+    throw new Error("Ошибка получения количества непрочитанных сообщений");
+
+  const data = await res.json();
+  return data.unread_count;
 }
 
 interface ChatMessage {
@@ -123,8 +129,10 @@ interface ChatMessage {
   };
 }
 
-export async function fetchAllMessages(unreadTotal: number, socket: MyWebSocketClient): Promise<ChatMessage[]> {
-
+export async function fetchAllMessages(
+  unreadTotal: number,
+  socket: MyWebSocketClient,
+): Promise<ChatMessage[]> {
   const allMessages: ChatMessage[] = [];
 
   return new Promise((resolve, reject) => {
@@ -171,16 +179,20 @@ export async function fetchAllMessages(unreadTotal: number, socket: MyWebSocketC
   });
 }
 
-export async function fetchAllOldMessages(httpClient: HTTPClient, userID: number, charID: number): Promise<ChatMessage[]> {
-    
+export async function fetchAllOldMessages(
+  httpClient: HTTPClient,
+  userID: number,
+  charID: number,
+): Promise<ChatMessage[]> {
   const allMessages: ChatMessage[] = [];
   let offset = -20;
   const token = await getChartToken(httpClient, charID);
-  console.log(`wss://ya-praktikum.tech/ws/chats/${userID}/${charID}/${token}`)
-  const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userID}/${charID}/${token}`);
-  
-  return new Promise((resolve, reject) => {
+  console.log(`wss://ya-praktikum.tech/ws/chats/${userID}/${charID}/${token}`);
+  const socket = new WebSocket(
+    `wss://ya-praktikum.tech/ws/chats/${userID}/${charID}/${token}`,
+  );
 
+  return new Promise((resolve, reject) => {
     socket.onopen = () => {
       socket.send(JSON.stringify({ type: "ping" }));
       requestMessages(offset);

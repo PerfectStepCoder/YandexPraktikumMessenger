@@ -1,4 +1,3 @@
-
 const template = `
 <div class="login-form">
     <h2>{{ title }}</h2>
@@ -13,4 +12,4 @@ const template = `
 </div>
 `;
 
-export default template
+export default template;

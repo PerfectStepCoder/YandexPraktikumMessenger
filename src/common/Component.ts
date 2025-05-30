@@ -1,6 +1,6 @@
 import EventBus from "./EventBus";
 import compile from "../utils/templator";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 // Типизация для событий
 type BlockEvents = {
@@ -8,7 +8,7 @@ type BlockEvents = {
   EVENT_FLOW_CDM: "flow:component-did-mount";
   EVENT_FLOW_CDU: "flow:component-did-update";
   EVENT_FLOW_RENDER: "flow:render";
-  EVENT_FLOW_UPDATE: "flow:component-update"
+  EVENT_FLOW_UPDATE: "flow:component-update";
 };
 
 type Listener<T = any> = (...args: T[]) => void;
@@ -20,13 +20,12 @@ interface ChildrenAndProps<TProps> {
 }
 
 export class Block<TProps extends Record<string, unknown> = {}> {
-
   static EVENTS: BlockEvents = {
     EVENT_INIT: "init",
     EVENT_FLOW_CDM: "flow:component-did-mount",
     EVENT_FLOW_CDU: "flow:component-did-update",
     EVENT_FLOW_RENDER: "flow:render",
-    EVENT_FLOW_UPDATE: "flow:component-update"
+    EVENT_FLOW_UPDATE: "flow:component-update",
   };
 
   private _element: HTMLElement | null = null;
@@ -55,7 +54,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
   }
 
   public bindEvent(event: string, callback: Listener) {
-    this.eventBus().on(event, callback)
+    this.eventBus().on(event, callback);
   }
 
   public emitEvent(event: string) {
@@ -64,8 +63,14 @@ export class Block<TProps extends Record<string, unknown> = {}> {
 
   private _registerEvents(eventBus: EventBus): void {
     eventBus.on(Block.EVENTS.EVENT_INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.EVENT_FLOW_CDM, this._componentDidMount.bind(this));
-    eventBus.on(Block.EVENTS.EVENT_FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(
+      Block.EVENTS.EVENT_FLOW_CDM,
+      this._componentDidMount.bind(this),
+    );
+    eventBus.on(
+      Block.EVENTS.EVENT_FLOW_CDU,
+      this._componentDidUpdate.bind(this),
+    );
     eventBus.on(Block.EVENTS.EVENT_FLOW_RENDER, this._render.bind(this));
   }
 
@@ -95,7 +100,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
 
   componentDidMount(oldProps?: TProps): void {
     // Переопределяется пользователем
-    console.log(oldProps)
+    console.log(oldProps);
   }
 
   dispatchComponentDidMount(): void {
@@ -107,8 +112,8 @@ export class Block<TProps extends Record<string, unknown> = {}> {
   }
 
   componentDidUpdate(oldProps: TProps, newProps: TProps): boolean {
-    console.log(oldProps)
-    console.log(newProps)
+    console.log(oldProps);
+    console.log(newProps);
     return true; // Переопределяется пользователем
   }
 
@@ -136,10 +141,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
     if (events) {
       Object.keys(events).forEach((eventName) => {
         if (this._element) {
-          this._element.addEventListener(
-            eventName,
-            events[eventName]
-          );
+          this._element.addEventListener(eventName, events[eventName]);
         }
       });
     }
@@ -150,10 +152,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
     if (events) {
       Object.keys(events).forEach((eventName) => {
         if (this._element) {
-          this._element.removeEventListener(
-            eventName,
-            events[eventName]
-          );
+          this._element.removeEventListener(eventName, events[eventName]);
         }
       });
     }
@@ -196,9 +195,7 @@ export class Block<TProps extends Record<string, unknown> = {}> {
     }
   }
 
-  private _getChildren(
-    propsAndChildren: TProps
-  ): ChildrenAndProps<TProps> {
+  private _getChildren(propsAndChildren: TProps): ChildrenAndProps<TProps> {
     const children: Record<string, Block> = {};
     const props = {} as TProps;
 
@@ -214,21 +211,20 @@ export class Block<TProps extends Record<string, unknown> = {}> {
   }
 
   compile(template: string, props: TProps): DocumentFragment {
-
     const propsAndStubs = { ...props } as Record<string, unknown>;
 
     Object.entries(this.children).forEach(([key, child]) => {
       propsAndStubs[key] = `<div data-id="${child._id}"></div>`;
     });
 
-    const fragment = this._createDocumentElement("template") as HTMLTemplateElement;
+    const fragment = this._createDocumentElement(
+      "template",
+    ) as HTMLTemplateElement;
 
     fragment.innerHTML = compile(template, propsAndStubs);
 
     Object.values(this.children).forEach((child) => {
-      const stub = fragment.content.querySelector(
-        `[data-id="${child._id}"]`
-      );
+      const stub = fragment.content.querySelector(`[data-id="${child._id}"]`);
       const rm = child.getContent();
       if (child && stub && rm) {
         stub.replaceWith(rm);
