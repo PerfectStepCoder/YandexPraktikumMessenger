@@ -140,12 +140,12 @@ export async function fetchAllMessages(
 
     socket.onOpen = () => {
       isOpen = true;
-      socket.send(JSON.stringify({ type: "ping" }));
+      socket.send({type: "ping", content: ""});
       requestMessages(0);
     };
 
     socket.onMessage = (event: any) => {
-      let data = {};
+      let data = {type: "", content: ""};
       try {
           data = JSON.parse(event.data);
       } catch (err: unknown) {
@@ -179,7 +179,7 @@ export async function fetchAllMessages(
         type: "get old",
         content: offset.toString(),
       };
-      socket.send(JSON.stringify(msg));
+      socket.send(msg);
     }
   });
 }
@@ -205,7 +205,7 @@ export async function fetchAllOldMessages(
 
     socket.onmessage = (event: any) => {
 
-      let data = {};
+      let data = {type: "ping", content: ""};
       try {
           data = JSON.parse(event.data);
       } catch (err: unknown) {
