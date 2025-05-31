@@ -66,6 +66,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "first_name",
     name: "first_name",
     placeholderText: userProfile.first_name,
+    value: userProfile.first_name,
     required: "required",
   });
 
@@ -77,6 +78,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "second_name",
     name: "second_name",
     placeholderText: userProfile.second_name,
+    value: userProfile.second_name,
     required: "required",
   });
 
@@ -88,6 +90,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "display_name",
     name: "display_name",
     placeholderText: userProfile.display_name,
+    value: userProfile.display_name,
     required: "required",
   });
 
@@ -99,6 +102,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "login",
     name: "login",
     placeholderText: userProfile.login,
+    value: userProfile.login,
     required: "required",
   });
 
@@ -110,6 +114,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "email",
     name: "email",
     placeholderText: userProfile.email,
+    value: userProfile.email,
     required: "required",
   });
 
@@ -121,10 +126,11 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "phone",
     name: "phone",
     placeholderText: userProfile.phone,
+    value: userProfile.phone,
     required: "required",
   });
 
-  const avatar = new FieldLabel({
+  let avatar = new FieldLabel({
     className: "form-group",
     type: "file",
     labelFor: "avatar",
@@ -132,6 +138,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     labelID: "avatar",
     name: "avatar",
     placeholderText: userProfile.avatar,
+    value: userProfile.avatar,
     required: "", // not required
   });
 
@@ -170,6 +177,18 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
           document.querySelector('input[name="avatar"]') as HTMLInputElement
         );
 
+        const avatarURL = `${apiUrl}/resources/${userProfile.avatar}`;
+
+        if (userProfile.avatar) {
+          const avatarWrapper = document.querySelector('div[id="avatar-img"]');
+          const avatarImg = document.createElement("img");
+          avatarImg.src = avatarURL; // путь к картинке
+          avatarImg.alt = "User avatar";
+          avatarImg.className = "user-avatar";
+          avatarImg.style.maxWidth = "100px"; // или через CSS
+          avatarWrapper?.appendChild(avatarImg);
+        }
+
         console.log('avatar', avatar);
 
         const body = {
@@ -181,7 +200,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
           phone: phone ? phone: userProfile.phone,
         };
 
-        console.log('body', body);
+        //console.log('body', body);
 
         uploadAvatar(avatar).then((data) => {
           console.log('data', data);
@@ -397,6 +416,9 @@ export function MakeCharts(navigate: Router, userID: number): Block {
           })
           .catch((error) => {
             console.error("Ошибка:", error);
+          }).finally(()=>{
+            (document.querySelector('input[name="user_id_for_chart"]') as HTMLInputElement
+            ).value = ""
           });
       },
     },
@@ -430,6 +452,10 @@ export function MakeCharts(navigate: Router, userID: number): Block {
           })
           .catch((error) => {
             console.error("Ошибка:", error);
+          }).finally(() => {
+              (document.querySelector(
+                'input[name="user_id_for_chart"]',
+              ) as HTMLInputElement).value = "";
           });
       },
     },
@@ -498,6 +524,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
             if (newMessage === "") {
               console.log("Сообщение не должно быть пустой строкой");
               alert("Сообщение не должно быть пустой строкой");
+              return
             }
             console.log(`chatId: ${chatId}, currentChatId: ${currentChatId}`);
 
@@ -596,6 +623,9 @@ export function MakeCharts(navigate: Router, userID: number): Block {
             } else {
               console.log("No sending. Select chart!");
             }
+            (document.querySelector(
+                'input[name="message"]',
+              ) as HTMLInputElement).value = "";
           })();
         },
       },

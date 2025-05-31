@@ -1,7 +1,7 @@
 const template = `
 <div class="container">
     <h2>{{ title }}</h2>
-    <form id="mainForm" action="{{ action }}" method="POST">
+    <form id="main-form" action="{{ action }}" method="POST">
 
         <!-- Поля для изменения информации о пользователе -->
         {{ firstName }}
@@ -11,13 +11,16 @@ const template = `
         {{ email }}
         {{ phone }}
         <!-- Поле для изменения аватара -->
-        {{ avatar }}
+        <div id="avatar-img">
+          {{ avatar }}
+        </div>
         <!-- Поля для изменения пароля -->
         {{ oldPassword }}
         {{ newPassword }}
         <!-- Кнопки -->
         {{ homeButton }}
         {{ saveButton }}
+
     </form>
 </div>
 

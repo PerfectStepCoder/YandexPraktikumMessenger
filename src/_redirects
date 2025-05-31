@@ -1,3 +1,1 @@
-/assets/pages/*.hbs   /assets/pages/:splat.hbs   200
-/assets/styles/*.css   /assets/styles/:splat.hbs   200
 /*    /index.html   200

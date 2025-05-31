@@ -4,14 +4,14 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 export default defineConfig({
   root: "src",
   plugins: [
-    // viteStaticCopy({
-    //   targets: [
-    //     {
-    //       src: "_redirects",
-    //       dest: "",
-    //     },
-    //   ],
-    // }),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "_redirects",
+          dest: "",
+        },
+      ],
+    }),
   ],
   server: {
     port: 3000,
