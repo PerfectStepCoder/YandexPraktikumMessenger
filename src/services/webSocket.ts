@@ -94,7 +94,7 @@ export class MyWebSocketClient extends WebSocketClientBase {
     console.log("Connection opened! onOpen onOpen");
     //this.send('Hello, server!');
     this.socket?.readyState == WebSocket.OPEN;
-    this.send({ type: "ping", content: "" }));
+    this.send({ type: "ping", content: "" });
   }
 
   public onMessage(data: WebSocketMessage): void {
