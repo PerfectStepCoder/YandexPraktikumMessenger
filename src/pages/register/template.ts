@@ -1,7 +1,7 @@
 const template = `
 <div class="register-form">
     <h2>Register</h2>
-    <form id="mainForm">
+    <form id="main-form">
         {{ firstName }}
         {{ secondName }}
         {{ displayName }}

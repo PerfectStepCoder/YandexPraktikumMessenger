@@ -12,7 +12,7 @@ export default class Register extends FormBlock {
 
   render(): DocumentFragment {
     const output = super.render();
-    Register.mainForm = output.getElementById("mainForm") as HTMLElement;
+    Register.mainForm = output.getElementById("main-form") as HTMLElement;
     this.addBlurListeners();
     Register.mainForm.addEventListener(
       "submit",

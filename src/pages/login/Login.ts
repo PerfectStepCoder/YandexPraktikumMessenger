@@ -16,7 +16,7 @@ export default class Login extends Block<LoginProps> {
 
   render(): DocumentFragment {
     const output = this.compile(template, this.props);
-    Login.mainForm = output.getElementById("mainForm") as HTMLElement;
+    Login.mainForm = output.getElementById("main-form") as HTMLElement;
     Login.mainForm.addEventListener("submit", this.handleSubmitForm.bind(this));
     return output;
   }

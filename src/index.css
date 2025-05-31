@@ -21,7 +21,3 @@ main {
 footer {
   flex-shrink: 0;
 }
-
-layout {
-  flex: 1;
-}

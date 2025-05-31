@@ -12,7 +12,7 @@ const template = `
             font-size: 18px;
         }
     </style>
-    <form id="mainForm" action="{{ action }}" method="POST">
+    <form id="main-form" action="{{ action }}" method="POST">
         <fieldset>
             <legend>Add/Delete new user:</legend>
 
