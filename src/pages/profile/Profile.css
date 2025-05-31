@@ -93,3 +93,9 @@ h2 {
 .buttons .reset:hover {
   background-color: var(--button-secondary-hover);
 }
+
+.user-avatar {
+  border-radius: 50%;
+  max-width: 100px;
+  margin-bottom: 10px;
+}

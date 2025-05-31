@@ -4,13 +4,9 @@ import HTTPClient from "../../../../services/sender";
 import {
   addMessage,
   clearMessage,
-  fetchAllMessages,
   fetchAllOldMessages,
-  getChartToken,
   getUnreadCount,
 } from "../../../../services/chartHelpers";
-import { getNewConnectSocket } from "../../../../services/webSocket";
-//import { MyWebSocketClient } from "../../../../utils/webSocket";
 
 interface ChartListProps extends Record<string, unknown> {
   count?: number; // буду использовать в будущем

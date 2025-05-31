@@ -6,7 +6,7 @@ import {
 } from "./pages/MainMaker";
 import Router from "./router";
 import HTTPClient from "./services/sender";
-import { fetchUserID, fetchUserProfile, UserProfile } from "./services/userHelpers";
+import { fetchUserProfile, UserProfile } from "./services/userHelpers";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

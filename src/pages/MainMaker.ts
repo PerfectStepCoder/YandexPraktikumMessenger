@@ -4,7 +4,6 @@ import Field from "../components/field";
 import FieldLabel from "../components/fieldLabel";
 import { Block } from "../common/Component";
 import Profile from "./profile";
-import Register from "./register";
 import ErrorMsg from "../components/error";
 import Charts from "./charts";
 import ChatList from "./charts/components/chatList";
@@ -17,7 +16,6 @@ import {
   fetchChats,
   addEventSelectChat,
 } from "./charts/components/chatList/ChartList";
-import { getNewConnectSocket, MyWebSocketClient } from "../services/webSocket";
 import {
   getActiveListItemId,
   addMessage,
@@ -26,13 +24,12 @@ import {
 import { CreateLogin } from "./login";
 import CreateRegister from "./register/maker";
 import AddUserInChat from "./charts/components/addUserInChat";
-import { fetchUserProfile, uploadAvatar, UserProfile } from "../services/userHelpers";
+import { uploadAvatar, UserProfile } from "../services/userHelpers";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const httpClient = new HTTPClient(apiUrl);
 
-const myWebSocketClient: MyWebSocketClient | null = null;
 let currentChatId: number = -1;
 
 export function MakeLogin(navigate: Router, currentUserID: number): Block {
@@ -529,7 +526,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
                   myWebSocketCurrent.addEventListener("message", (event) => {
                     let data = {};
                     try {
-                       const data = JSON.parse(event.data);
+                      data = JSON.parse(event.data);
                     } catch (err: unknown) {
                       console.log(`Error parsing: ${err}`);
                       return
