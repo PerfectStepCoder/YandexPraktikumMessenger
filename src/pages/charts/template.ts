@@ -1,13 +1,13 @@
 const template = `
-<div class="container">
+<div class="content">
     
     <!-- Список чатов -->
     {{ chartList }}
-
+    
     <!-- Лента переписки -->
     {{ chartMessages }}
 
 </div>
 `;
 
-export default template
+export default template;
