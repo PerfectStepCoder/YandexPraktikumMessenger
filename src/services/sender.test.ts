@@ -37,9 +37,7 @@ describe("HTTPClient", () => {
       set onload(fn: () => void) {
         onLoadCallback = fn;
       },
-      // set onerror(fn: () => void) {
-      //   // не нужен для этого теста
-      // },
+      onerror: () => {}
     };
 
     class MockXHR {
