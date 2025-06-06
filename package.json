@@ -17,7 +17,7 @@
     "test": "vitest",
     "prepare": "husky install"
   },
-    "husky": {
+  "husky": {
     "hooks": {
       "pre-commit": "npm-run-all test"
     }
