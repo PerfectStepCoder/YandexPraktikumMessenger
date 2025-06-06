@@ -15,7 +15,9 @@
     "lint:styles": "stylelint '**/*.css' '**/*.scss' --fix",
     "lint:fix": "eslint ./src --fix",
     "test": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "precommit": "npm test",
+    "prepush": "npm test"
   },
   "husky": {
     "hooks": {
