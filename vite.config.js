@@ -24,7 +24,7 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    environment: 'jsdom', // или 'jsdom' если у тебя есть DOM (или node)
-    include: ['**/*.test.ts'],
+    environment: "jsdom", // или 'jsdom' если у тебя есть DOM (или node)
+    include: ["**/*.test.ts"],
   },
 });

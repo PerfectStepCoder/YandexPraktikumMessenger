@@ -13,17 +13,19 @@ export async function fetchUserID(httpClient: HTTPClient) {
 }
 
 export interface UserProfile {
-    id: number,
-    first_name: string,
-    second_name: string,
-    display_name: string,
-    phone: string,
-    login: string,
-    avatar: string,
-    email: string
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  phone: string;
+  login: string;
+  avatar: string;
+  email: string;
 }
 
-export async function fetchUserProfile(httpClient: HTTPClient): Promise<UserProfile> {
+export async function fetchUserProfile(
+  httpClient: HTTPClient,
+): Promise<UserProfile> {
   try {
     const response = await httpClient.get<ResponseUser>("/auth/user");
     console.log("Ответ сервера user:", response);
@@ -35,7 +37,6 @@ export async function fetchUserProfile(httpClient: HTTPClient): Promise<UserProf
 }
 
 export async function uploadAvatar(fileInput: HTMLInputElement) {
-
   if (!fileInput.files || fileInput.files.length === 0) {
     console.warn("Файл не выбран");
     return;
@@ -45,11 +46,14 @@ export async function uploadAvatar(fileInput: HTMLInputElement) {
   formData.append("avatar", fileInput.files[0]); // 'avatar' — это имя поля на сервере
 
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/user/profile/avatar`, {
-      method: "PUT",
-      body: formData,
-      credentials: "include"
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/user/profile/avatar`,
+      {
+        method: "PUT",
+        body: formData,
+        credentials: "include",
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`Ошибка при обновлении аватара: ${response.statusText}`);

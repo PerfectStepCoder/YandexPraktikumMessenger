@@ -1,10 +1,10 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import HTTPClient from './sender'; // путь к HTTPClient
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import HTTPClient from "./sender"; // путь к HTTPClient
 
 let originalXMLHttpRequest: typeof globalThis.XMLHttpRequest;
 
-describe('HTTPClient', () => {
-  const baseAPI = 'https://api.example.com';
+describe("HTTPClient", () => {
+  const baseAPI = "https://api.example.com";
   let client: HTTPClient;
 
   beforeEach(() => {
@@ -16,11 +16,11 @@ describe('HTTPClient', () => {
     global.XMLHttpRequest = originalXMLHttpRequest;
   });
 
-  it('должен возвращать baseUrl через getBaseUrl()', () => {
+  it("должен возвращать baseUrl через getBaseUrl()", () => {
     expect(client.getBaseUrl()).toBe(baseAPI);
   });
 
-  it('выполняет GET-запрос и получает JSON', async () => {
+  it("выполняет GET-запрос и получает JSON", async () => {
     const mockOpen = vi.fn();
     const mockSend = vi.fn();
     const mockSetHeader = vi.fn();
@@ -63,14 +63,14 @@ describe('HTTPClient', () => {
 
     global.XMLHttpRequest = MockXHR as any;
 
-    const promise = client.get<{ ok: boolean }>('/test');
+    const promise = client.get<{ ok: boolean }>("/test");
 
     // эмулируем onload вызов
     onLoadCallback?.();
 
     const result = await promise;
 
-    expect(mockOpen).toHaveBeenCalledWith('GET', `${baseAPI}/test`, true);
+    expect(mockOpen).toHaveBeenCalledWith("GET", `${baseAPI}/test`, true);
     expect(mockSend).toHaveBeenCalled();
     expect(result).toEqual({ ok: true });
   });

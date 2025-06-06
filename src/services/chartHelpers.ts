@@ -140,17 +140,17 @@ export async function fetchAllMessages(
 
     socket.onOpen = () => {
       isOpen = true;
-      socket.send({type: "ping", content: ""});
+      socket.send({ type: "ping", content: "" });
       requestMessages(0);
     };
 
     socket.onMessage = (event: any) => {
-      let data = {type: "", content: ""};
+      let data = { type: "", content: "" };
       try {
-          data = JSON.parse(event.data);
+        data = JSON.parse(event.data);
       } catch (err: unknown) {
         console.log(`Error parsing: ${err}`);
-        return
+        return;
       }
       if (Array.isArray(data)) {
         allMessages.push(...data);
@@ -204,13 +204,12 @@ export async function fetchAllOldMessages(
     };
 
     socket.onmessage = (event: any) => {
-
-      let data = {type: "ping", content: ""};
+      let data = { type: "ping", content: "" };
       try {
-          data = JSON.parse(event.data);
+        data = JSON.parse(event.data);
       } catch (err: unknown) {
         console.log(`Error parsing: ${err}`);
-        return
+        return;
       }
 
       console.log("data", data);

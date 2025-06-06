@@ -18,20 +18,20 @@ let currentUserID: number = -1;
 
 let userProfile: UserProfile = {
   id: -1,
-  first_name: '',
-  second_name: '',
-  display_name: '',
-  phone: '',
-  login: '',
-  avatar: '',
-  email: ''
+  first_name: "",
+  second_name: "",
+  display_name: "",
+  phone: "",
+  login: "",
+  avatar: "",
+  email: "",
 };
 
 fetchUserProfile(httpClient)
   .then((userDataProfile) => {
     currentUserID = userDataProfile.id;
     userProfile = userDataProfile;
-    console.log('userDataProfile', userDataProfile);
+    console.log("userDataProfile", userDataProfile);
   })
   .catch((error) => {
     console.error("Ошибка при загрузке текущего пользователя:", error);
