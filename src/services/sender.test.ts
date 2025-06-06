@@ -4,7 +4,7 @@ import HTTPClient from "./sender"; // путь к HTTPClient
 let originalXMLHttpRequest: typeof globalThis.XMLHttpRequest;
 
 describe("HTTPClient", () => {
-  const baseAPI = "https://api.example.com";
+  const baseAPI = "http://localhost:5555";
   let client: HTTPClient;
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe("HTTPClient", () => {
     const mockSend = vi.fn();
     const mockSetHeader = vi.fn();
 
-    let onLoadCallback: (() => void) | null = null;
+    let onLoadCallback!: () => void;
 
     const mockXhrInstance = {
       open: mockOpen,
@@ -37,9 +37,9 @@ describe("HTTPClient", () => {
       set onload(fn: () => void) {
         onLoadCallback = fn;
       },
-      set onerror(fn: () => void) {
-        // не нужен для этого теста
-      },
+      // set onerror(fn: () => void) {
+      //   // не нужен для этого теста
+      // },
     };
 
     class MockXHR {
