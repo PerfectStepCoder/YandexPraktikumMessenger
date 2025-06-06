@@ -17,6 +17,11 @@
     "test": "vitest",
     "prepare": "husky install"
   },
+    "husky": {
+    "hooks": {
+      "pre-commit": "npm-run-all test"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@types/chai": "^5.2.2",
