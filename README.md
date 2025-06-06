@@ -84,3 +84,5 @@ phone: "89164567880"
 ## Обновление зависимостей
 > npx npm-check-updates -u
 > npm install
+
+# Git
