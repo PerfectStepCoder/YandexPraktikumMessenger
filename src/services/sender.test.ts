@@ -4,7 +4,7 @@ import HTTPClient from "./sender"; // путь к HTTPClient
 let originalXMLHttpRequest: typeof globalThis.XMLHttpRequest;
 
 describe("HTTPClient", () => {
-  const baseAPI = "http://localhost:5555";
+  const baseAPI = "http://localhost:3000";
   let client: HTTPClient;
 
   beforeEach(() => {
