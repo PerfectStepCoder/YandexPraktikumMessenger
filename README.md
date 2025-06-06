@@ -70,3 +70,17 @@ email: "test_tes_snigal@mail.com",
 password: "fdf5Gdfgir35SdfvS",
 phone: "89164567880"
 };
+
+# Unit-тесты
+Проверка сколько файлов тестов в проекте:
+> ls src/**/*.test.ts
+
+Запуск тестов (я использую vitest потому что он интегрирован в vite который использую в самом проекте)
+> npm run test
+
+## Аудит уязвимостей
+> npm audit fix
+ 
+## Обновление зависимостей
+> npx npm-check-updates -u
+> npm install

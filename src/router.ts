@@ -1,6 +1,6 @@
 import { render } from "./utils/renderDOM";
 
-class Route {
+export class Route {
   private _pathname: string;
   private _block: any;
   //private _blockClass: any;
