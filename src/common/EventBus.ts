@@ -1,14 +1,10 @@
-// Определяем тип для словаря событий, где ключ — имя события, а значение — тип аргументов
-type EventMap = Record<string, any>; // Базовый тип, который можно расширить
+type Listener<T = any> = (...args: T[]) => void;
 
-// Тип для обработчика событий, зависящий от типа аргументов события
-type Listener<T> = (...args: T[]) => void;
-
-class EventBus<TEventMap extends EventMap = Record<string, any>> {
-  private listeners: Record<keyof TEventMap, Listener<TEventMap[keyof TEventMap]>[]>;
+class EventBus {
+  private listeners: Record<string, Listener[]>;
 
   constructor() {
-    this.listeners = {} as Record<keyof TEventMap, Listener<TEventMap[keyof TEventMap]>[]>;
+    this.listeners = {};
   }
 
   /**
@@ -16,7 +12,7 @@ class EventBus<TEventMap extends EventMap = Record<string, any>> {
    * @param event - имя события
    * @param callback - функция, которая будет вызвана при событии
    */
-  on<TEvent extends keyof TEventMap>(event: TEvent, callback: Listener<TEventMap[TEvent]>): void {
+  on<T = any>(event: string, callback: Listener<T>): void {
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -29,9 +25,9 @@ class EventBus<TEventMap extends EventMap = Record<string, any>> {
    * @param event - имя события
    * @param callback - функция, которую нужно удалить
    */
-  off<TEvent extends keyof TEventMap>(event: TEvent, callback: Listener<TEventMap[TEvent]>): void {
+  off<T = any>(event: string, callback: Listener<T>): void {
     if (!this.listeners[event]) {
-      throw new Error(`No events: ${String(event)}`);
+      throw new Error(`No events: ${event}`);
     }
 
     this.listeners[event] = this.listeners[event].filter(
@@ -44,9 +40,9 @@ class EventBus<TEventMap extends EventMap = Record<string, any>> {
    * @param event - имя события
    * @param args - аргументы, передаваемые слушателям
    */
-  emit<TEvent extends keyof TEventMap>(event: TEvent, ...args: TEventMap[TEvent][]): void {
+  emit<T = any>(event: string, ...args: T[]): void {
     if (!this.listeners[event]) {
-      throw new Error(`No events: ${String(event)}`);
+      throw new Error(`No events: ${event}`);
     }
 
     this.listeners[event].forEach((listener) => {
