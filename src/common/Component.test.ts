@@ -4,9 +4,9 @@ import { Block } from "./Component";
 
 // Настройка jsdom
 const dom = new JSDOM("<!DOCTYPE html><html><body></body></html>");
-(globalThis as any).window = dom.window;
-(globalThis as any).document = dom.window.document;
-(globalThis as any).DocumentFragment = dom.window.DocumentFragment;
+globalThis.window = dom.window as unknown as typeof window;
+globalThis.document = dom.window.document as unknown as typeof document;
+globalThis.DocumentFragment = dom.window.DocumentFragment as unknown as typeof DocumentFragment;
 
 describe("Block", () => {
   it("должен создавать элемент при инициализации", () => {
@@ -46,7 +46,7 @@ describe("Block", () => {
     const block = new TestBlock("div", { test: "old" });
     block.setProps({ test: "new" });
 
-    // @ts-ignore
+    // @ts-expect-error
     expect(block.props.test).to.equal("new");
   });
 

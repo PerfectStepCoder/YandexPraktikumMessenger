@@ -19,11 +19,6 @@
     "precommit": "npm test",
     "prepush": "npm test"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm-run-all test"
-    }
-  },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@types/chai": "^5.2.2",
@@ -38,6 +33,7 @@
     "globals": "^16.2.0",
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^16.1.0",
     "mocha": "^11.5.0",
     "sinon": "^20.0.0",
     "stylelint": "^16.20.0",
@@ -55,5 +51,11 @@
     "crypto": "^1.0.1",
     "lodash-es": "^4.17.21",
     "uuid": "^11.1.0"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }

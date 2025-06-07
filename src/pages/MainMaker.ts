@@ -132,7 +132,7 @@ export function MakeProfile(
     required: "required",
   });
 
-  let avatar = new FieldLabel({
+  const avatar = new FieldLabel({
     className: "form-group",
     type: "file",
     labelFor: "avatar",
