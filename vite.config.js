@@ -22,4 +22,9 @@ export default defineConfig({
     //   external: ["uuid"], // Указываем, что модуль должен оставаться внешним
     // },
   },
+  test: {
+    globals: true,
+    environment: "jsdom", // или 'jsdom' если у тебя есть DOM (или node)
+    include: ["**/*.test.ts"],
+  },
 });

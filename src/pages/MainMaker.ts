@@ -48,7 +48,11 @@ export function MakeLogin(navigate: Router, currentUserID: number): Block {
   return layout;
 }
 
-export function MakeProfile(navigate: Router, currentUserID: number, userProfile: UserProfile): Block {
+export function MakeProfile(
+  navigate: Router,
+  currentUserID: number,
+  userProfile: UserProfile,
+): Block {
 
   console.log("userID", currentUserID);
 
@@ -56,7 +60,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     navigate.go("/");
   }
 
-  console.log('userProfile', userProfile);
+  console.log("userProfile", userProfile);
 
   const firstName = new FieldLabel({
     className: "form-group",
@@ -130,7 +134,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     required: "required",
   });
 
-  let avatar = new FieldLabel({
+  const avatar = new FieldLabel({
     className: "form-group",
     type: "file",
     labelFor: "avatar",
@@ -150,7 +154,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
       click: (event: MouseEvent) => {
         console.log(event);
         event.preventDefault(); // Останавливаем стандартное поведение отправки формы
-                // Получаем значения логина и пароля
+        // Получаем значения логина и пароля
         const firstName = (
           document.querySelector('input[name="first_name"]') as HTMLInputElement
         ).value;
@@ -170,12 +174,14 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
           document.querySelector('input[name="phone"]') as HTMLInputElement
         ).value;
         const display_name = (
-          document.querySelector('input[name="display_name"]') as HTMLInputElement
+          document.querySelector(
+            'input[name="display_name"]',
+          ) as HTMLInputElement
         ).value;
 
-        const avatar = (
-          document.querySelector('input[name="avatar"]') as HTMLInputElement
-        );
+        const avatar = document.querySelector(
+          'input[name="avatar"]',
+        ) as HTMLInputElement;
 
         const avatarURL = `${apiUrl}/resources/${userProfile.avatar}`;
 
@@ -189,28 +195,26 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
           avatarWrapper?.appendChild(avatarImg);
         }
 
-        console.log('avatar', avatar);
+        console.log("avatar", avatar);
 
         const body = {
           first_name: firstName ? firstName : userProfile.first_name,
-          second_name: secondName ? secondName: userProfile.second_name,
-          display_name: display_name ? display_name: userProfile.display_name,
+          second_name: secondName ? secondName : userProfile.second_name,
+          display_name: display_name ? display_name : userProfile.display_name,
           login: login ? login : userProfile.login,
-          email: email ? email: userProfile.email,
-          phone: phone ? phone: userProfile.phone,
+          email: email ? email : userProfile.email,
+          phone: phone ? phone : userProfile.phone,
         };
 
-        //console.log('body', body);
-
         uploadAvatar(avatar).then((data) => {
-          console.log('data', data);
+          console.log("data", data);
         });
 
         httpClient
           .put<string>("/user/profile", body)
           .then((response) => {
             console.log("Ответ сервера:", response);
-            alert('Profile saved');
+            alert("Profile saved");
             navigate.go("/messenger");
           })
           .catch((error) => {
@@ -234,7 +238,7 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
 
   const profilePage = new Profile({
     title: "Profile",
-    action: "/profile",
+    action: "/settings",
     firstName: firstName,
     secondName: secondName,
     displayName: displayName,
@@ -242,11 +246,8 @@ export function MakeProfile(navigate: Router, currentUserID: number, userProfile
     email: email,
     phone: phone,
     avatar: avatar,
-    // oldPassword: oldPassword,
-    // newPassword: newPassword,
     homeButton: homeButton,
     saveButton: buttonSubmit,
-    //resetButton: buttonReset,
   });
 
   return profilePage;
@@ -416,9 +417,13 @@ export function MakeCharts(navigate: Router, userID: number): Block {
           })
           .catch((error) => {
             console.error("Ошибка:", error);
-          }).finally(()=>{
-            (document.querySelector('input[name="user_id_for_chart"]') as HTMLInputElement
-            ).value = ""
+          })
+          .finally(() => {
+            (
+              document.querySelector(
+                'input[name="user_id_for_chart"]',
+              ) as HTMLInputElement
+            ).value = "";
           });
       },
     },
@@ -452,10 +457,13 @@ export function MakeCharts(navigate: Router, userID: number): Block {
           })
           .catch((error) => {
             console.error("Ошибка:", error);
-          }).finally(() => {
-              (document.querySelector(
+          })
+          .finally(() => {
+            (
+              document.querySelector(
                 'input[name="user_id_for_chart"]',
-              ) as HTMLInputElement).value = "";
+              ) as HTMLInputElement
+            ).value = "";
           });
       },
     },
@@ -464,7 +472,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
   const addUserInChat = new AddUserInChat({
     inputUserID: userIDtoChart,
     saveUser: buttonAddUserChat,
-    deleteUser: buttonDeleteUserChat
+    deleteUser: buttonDeleteUserChat,
   });
 
   const buttonProfile = new Button({
@@ -474,7 +482,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
     events: {
       click: (event: MouseEvent) => {
         event.preventDefault(); // Останавливаем стандартное поведение отправки формы
-        navigate.go('/settings');
+        navigate.go("/settings");
       },
     },
   });
@@ -487,7 +495,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
       chartControl: chartControl,
       buttonLogout: buttonLogout,
       addUserInChat: addUserInChat,
-      buttonProfile: buttonProfile
+      buttonProfile: buttonProfile,
     },
     httpClient,
     userID,
@@ -524,7 +532,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
             if (newMessage === "") {
               console.log("Сообщение не должно быть пустой строкой");
               alert("Сообщение не должно быть пустой строкой");
-              return
+              return;
             }
             console.log(`chatId: ${chatId}, currentChatId: ${currentChatId}`);
 
@@ -556,7 +564,7 @@ export function MakeCharts(navigate: Router, userID: number): Block {
                       data = JSON.parse(event.data);
                     } catch (err: unknown) {
                       console.log(`Error parsing: ${err}`);
-                      return
+                      return;
                     }
                     console.log("Получены данные (в прежнем чате)", event.data);
                     if (Array.isArray(data)) {
@@ -601,12 +609,12 @@ export function MakeCharts(navigate: Router, userID: number): Block {
                   }, 25000);
                 });
                 myWebSocketCurrent.addEventListener("message", (event) => {
-                  let message = {'type': '', 'user_id': '', 'content': ''};
+                  let message = { type: "", user_id: "", content: "" };
                   try {
-                     message = JSON.parse(event.data);
+                    message = JSON.parse(event.data);
                   } catch (err: unknown) {
                     console.log(`Error parsing: ${err}`);
-                    return
+                    return;
                   }
                   console.log("Получены данные (сменили чат)", event.data);
                   if (message.type === "message") {
@@ -623,9 +631,11 @@ export function MakeCharts(navigate: Router, userID: number): Block {
             } else {
               console.log("No sending. Select chart!");
             }
-            (document.querySelector(
+            (
+              document.querySelector(
                 'input[name="message"]',
-              ) as HTMLInputElement).value = "";
+              ) as HTMLInputElement
+            ).value = "";
           })();
         },
       },

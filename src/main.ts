@@ -14,24 +14,25 @@ const httpClient = new HTTPClient(apiUrl);
 
 const router = new Router("#app");
 
+
 let currentUserID: number = -1;
 
 let userProfile: UserProfile = {
   id: -1,
-  first_name: '',
-  second_name: '',
-  display_name: '',
-  phone: '',
-  login: '',
-  avatar: '',
-  email: ''
+  first_name: "",
+  second_name: "",
+  display_name: "",
+  phone: "",
+  login: "",
+  avatar: "",
+  email: "",
 };
 
 fetchUserProfile(httpClient)
   .then((userDataProfile) => {
     currentUserID = userDataProfile.id;
     userProfile = userDataProfile;
-    console.log('userDataProfile', userDataProfile);
+    console.log("userDataProfile", userDataProfile);
   })
   .catch((error) => {
     console.error("Ошибка при загрузке текущего пользователя:", error);
@@ -39,9 +40,9 @@ fetchUserProfile(httpClient)
   .finally(() => {
     console.log("Current UserID:", currentUserID);
     router
-      .use("/", MakeLogin(router, currentUserID))
-      .use("/settings", MakeProfile(router, currentUserID, userProfile))
-      .use("/sign-up", MakeRegister(router))
-      .use("/messenger", MakeCharts(router, currentUserID))
+      .use("/", () => MakeLogin(router, currentUserID))
+      .use("/settings", () => MakeProfile(router, currentUserID, userProfile))
+      .use("/sign-up", () => MakeRegister(router))
+      .use("/messenger", () => MakeCharts(router, currentUserID))
       .start();
   });

@@ -9,12 +9,12 @@ jobs:
   test:
     if: ${{github.head_ref == 'sprint_1' || github.head_ref == 'sprint_2' || github.head_ref == 'sprint_3' || github.head_ref == 'sprint_4'}}
     env:
-      SPRINT: ${{github.head_ref}}
+      SPRINT: sprint_4
       TERM: xterm-256color
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [20.x]
     steps:
       - name: Set up GitHub Actions
         uses: actions/checkout@v3
