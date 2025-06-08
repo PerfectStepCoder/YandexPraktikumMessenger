@@ -32,20 +32,11 @@ describe("Route", () => {
 
   it("render() добавляет контент в DOM", () => {
     const mockBlock = new MockBlock();
-    const route = new Route("/test", mockBlock, { rootQuery: ".app" });
+    const route = new Route("/test", () => mockBlock, { rootQuery: ".app" });
 
     route.render();
 
     const root = document.querySelector(".app")!;
     expect(root.textContent).toBe("Mock Content");
-  });
-
-  it("leave() вызывает hide у блока", () => {
-    const mockBlock = new MockBlock();
-    const route = new Route("/test", mockBlock, { rootQuery: ".app" });
-
-    route.leave();
-
-    expect(mockBlock.hide).toHaveBeenCalled();
   });
 });

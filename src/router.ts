@@ -27,16 +27,17 @@ export class Route {
     if (!this._block) {
       this._block = this._blockFactory();
     }
-
     console.log(`Rendering route: ${this._pathname}`);
     render(this._props.rootQuery, this._block);
+    this._block.show?.();
   }
 
   leave(): void {
     console.log(`Leaving route: ${this._pathname}`);
-    if (this._block?.hide) {
-      this._block.hide();
-    }
+    this._block?.hide?.();
+    // if (this._block?.hide) {
+    //   this._block.hide();
+    // }
   }
 }
 
