@@ -33,6 +33,7 @@ const httpClient = new HTTPClient(apiUrl);
 let currentChatId: number = -1;
 
 export function MakeLogin(navigate: Router, currentUserID: number): Block {
+
   if (currentUserID !== -1) {
     navigate.go("/messenger");
   }
@@ -52,6 +53,7 @@ export function MakeProfile(
   currentUserID: number,
   userProfile: UserProfile,
 ): Block {
+
   console.log("userID", currentUserID);
 
   if (currentUserID === -1) {
@@ -204,8 +206,6 @@ export function MakeProfile(
           phone: phone ? phone : userProfile.phone,
         };
 
-        //console.log('body', body);
-
         uploadAvatar(avatar).then((data) => {
           console.log("data", data);
         });
@@ -238,7 +238,7 @@ export function MakeProfile(
 
   const profilePage = new Profile({
     title: "Profile",
-    action: "/profile",
+    action: "/settings",
     firstName: firstName,
     secondName: secondName,
     displayName: displayName,
@@ -246,11 +246,8 @@ export function MakeProfile(
     email: email,
     phone: phone,
     avatar: avatar,
-    // oldPassword: oldPassword,
-    // newPassword: newPassword,
     homeButton: homeButton,
     saveButton: buttonSubmit,
-    //resetButton: buttonReset,
   });
 
   return profilePage;

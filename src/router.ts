@@ -2,14 +2,13 @@ import { render } from "./utils/renderDOM";
 
 export class Route {
   private _pathname: string;
-  private _block: any;
-  //private _blockClass: any;
+  private _block: any = null;
+  private _blockFactory: () => any;
   private _props: { rootQuery: string };
 
-  constructor(pathname: string, block: any, props: { rootQuery: string }) {
+  constructor(pathname: string, blockFactory: () => any, props: { rootQuery: string }) {
     this._pathname = pathname;
-    //this._blockClass = block;
-    this._block = block;
+    this._blockFactory = blockFactory;
     this._props = props;
   }
 
@@ -25,18 +24,17 @@ export class Route {
   }
 
   render(): void {
-    if (this._block) {
-      //this._block = new this._blockClass();
-      console.log(`Rendering route: ${this._pathname}`);
-      render(this._props.rootQuery, this._block);
-      return;
+    if (!this._block) {
+      this._block = this._blockFactory();
     }
-    this._block.show();
+
+    console.log(`Rendering route: ${this._pathname}`);
+    render(this._props.rootQuery, this._block);
   }
 
   leave(): void {
     console.log(`Leaving route: ${this._pathname}`);
-    if (this._block) {
+    if (this._block?.hide) {
       this._block.hide();
     }
   }
@@ -78,6 +76,7 @@ class Router {
   }
 
   private _onRoute(pathname: string): void {
+
     console.log(`Change Location: ${pathname}`);
 
     const route = this.getRoute(pathname);

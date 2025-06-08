@@ -14,6 +14,7 @@ const httpClient = new HTTPClient(apiUrl);
 
 const router = new Router("#app");
 
+
 let currentUserID: number = -1;
 
 let userProfile: UserProfile = {
@@ -39,9 +40,9 @@ fetchUserProfile(httpClient)
   .finally(() => {
     console.log("Current UserID:", currentUserID);
     router
-      .use("/", MakeLogin(router, currentUserID))
-      .use("/settings", MakeProfile(router, currentUserID, userProfile))
-      .use("/sign-up", MakeRegister(router))
-      .use("/messenger", MakeCharts(router, currentUserID))
+      .use("/", () => MakeLogin(router, currentUserID))
+      .use("/settings", () => MakeProfile(router, currentUserID, userProfile))
+      .use("/sign-up", () => MakeRegister(router))
+      .use("/messenger", () => MakeCharts(router, currentUserID))
       .start();
   });
